@@ -1,0 +1,155 @@
+{% extends 'store/base.html' %} {% load static %} {% block title %}Детское Elite
+- ABUZADA STORE{% endblock %} {% block content %}
+<section class="products">
+  <h2>Детское Elite</h2>
+  <div class="products-grid">
+    <!-- Футболка Mbappe -->
+    <div
+      class="product-card"
+      data-white-front="{% static 'store/images/Mbappe.PNG' %}"
+      data-white-back="{% static 'store/images/MbappeBack.PNG' %}"
+      data-black-front="{% static 'store/images/Mbappe.PNG' %}"
+      data-black-back="{% static 'store/images/MbappeBack.PNG' %}"
+      data-cream-front="{% static 'store/images/Mbappe.PNG' %}"
+      data-cream-back="{% static 'store/images/MbappeBack.PNG' %}"
+    >
+      <div class="carousel-images">
+        <img src="{% static 'store/images/Mbappe.PNG' %}" alt="Mbappe front" />
+        <img
+          src="{% static 'store/images/MbappeBack.PNG' %}"
+          alt="Mbappe back"
+        />
+      </div>
+      <div class="arrow arrow-left"></div>
+      <div class="arrow arrow-right"></div>
+      <div class="dots"></div>
+      <div class="info-wrapper">
+        <p class="product-title">Футболка Kylian Mbappe</p>
+        <p class="price">3490 ₽</p>
+        <div class="size-options">
+          <span>S</span>
+          <span>M</span>
+          <span>L</span>
+          <span>XL</span>
+        </div>
+        <div class="color-options">
+          <span
+            class="color-swatch"
+            data-color="white"
+            style="background-color: #ffffff"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="cream"
+            style="background-color: #f5f5dc"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="black"
+            style="background-color: #000000"
+          ></span>
+        </div>
+      </div>
+    </div>
+    <!-- Футболка Neymar -->
+    <div
+      class="product-card"
+      data-white-front="{% static 'store/images/Neymar.PNG' %}"
+      data-white-back="{% static 'store/images/NeymarBack.PNG' %}"
+      data-black-front="{% static 'store/images/Neymar.PNG' %}"
+      data-black-back="{% static 'store/images/NeymarBack.PNG' %}"
+      data-cream-front="{% static 'store/images/Neymar.PNG' %}"
+      data-cream-back="{% static 'store/images/NeymarBack.PNG' %}"
+    >
+      <div class="carousel-images">
+        <img src="{% static 'store/images/Neymar.PNG' %}" alt="Neymar front" />
+        <img
+          src="{% static 'store/images/NeymarBack.PNG' %}"
+          alt="Neymar back"
+        />
+      </div>
+      <div class="arrow arrow-left"></div>
+      <div class="arrow arrow-right"></div>
+      <div class="dots"></div>
+      <div class="info-wrapper">
+        <p class="product-title">Футболка Neymar</p>
+        <p class="price">3490 ₽</p>
+        <div class="size-options">
+          <span>S</span>
+          <span>M</span>
+          <span>L</span>
+          <span>XL</span>
+        </div>
+        <div class="color-options">
+          <span
+            class="color-swatch"
+            data-color="white"
+            style="background-color: #ffffff"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="cream"
+            style="background-color: #f5f5dc"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="black"
+            style="background-color: #000000"
+          ></span>
+        </div>
+      </div>
+    </div>
+    <!-- Футболка Bellingham -->
+    <div
+      class="product-card"
+      data-white-front="{% static 'store/images/Bellingham.PNG' %}"
+      data-white-back="{% static 'store/images/BellinghamBack.PNG' %}"
+      data-black-front="{% static 'store/images/Bellingham.PNG' %}"
+      data-black-back="{% static 'store/images/BellinghamBack.PNG' %}"
+      data-cream-front="{% static 'store/images/Bellingham.PNG' %}"
+      data-cream-back="{% static 'store/images/BellinghamBack.PNG' %}"
+    >
+      <div class="carousel-images">
+        <img
+          src="{% static 'store/images/Bellingham.PNG' %}"
+          alt="Bellingham front"
+        />
+        <img
+          src="{% static 'store/images/BellinghamBack.PNG' %}"
+          alt="Bellingham back"
+        />
+      </div>
+      <div class="arrow arrow-left"></div>
+      <div class="arrow arrow-right"></div>
+      <div class="dots"></div>
+      <div class="info-wrapper">
+        <p class="product-title">Футболка Jude Bellingham</p>
+        <p class="price">3490 ₽</p>
+        <div class="size-options">
+          <span>S</span>
+          <span>M</span>
+          <span>L</span>
+          <span>XL</span>
+        </div>
+        <div class="color-options">
+          <span
+            class="color-swatch"
+            data-color="white"
+            style="background-color: #ffffff"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="cream"
+            style="background-color: #f5f5dc"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="black"
+            style="background-color: #000000"
+          ></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

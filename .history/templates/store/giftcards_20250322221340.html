@@ -1,0 +1,34 @@
+{% extends 'store/base.html' %} {% load static %} {% block title %}Подарочные
+карты - ABUZADA STORE{% endblock %} {% block content %}
+<section class="giftcards">
+  <h2>Подарочные карты</h2>
+  <div class="products-grid">
+    <!-- Подарочная карта 1 -->
+    <div class="product-card giftcard">
+      <div class="carousel-images">
+        <img
+          src="{% static 'store/images/GiftCard3500.png' %}"
+          alt="Подарочная карта 1"
+        />
+      </div>
+      <div class="info-wrapper">
+        <p class="product-title">Подарочная карта 3500</p>
+        <p class="price">3500 ₽</p>
+      </div>
+    </div>
+    <!-- Подарочная карта 2 -->
+    <div class="product-card giftcard">
+      <div class="carousel-images">
+        <img
+          src="{% static 'store/images/GiftCard5000.png' %}"
+          alt="Подарочная карта 2"
+        />
+      </div>
+      <div class="info-wrapper">
+        <p class="product-title">Подарочная карта 5000</p>
+        <p class="price">5000 ₽</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

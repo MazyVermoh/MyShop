@@ -1,0 +1,160 @@
+{% extends 'store/base.html' %} {% load static %} {% block title %}Коллекция
+Legends - ABUZADA STORE{% endblock %} {% block content %}
+<section class="products">
+  <h2>Legends</h2>
+  <div class="products-grid">
+    <!-- 1. Футболка Ronaldinho -->
+    <div
+      class="product-card"
+      data-white-front="{% static 'store/images/RonaldinhoBack.PNG' %}"
+      data-white-back="{% static 'store/images/RonaldinhoBack.PNG' %}"
+      data-black-front="{% static 'store/images/RonaldinhoBack.PNG' %}"
+      data-black-back="{% static 'store/images/RonaldinhoBack.PNG' %}"
+      data-cream-front="{% static 'store/images/RonaldinhoBack.PNG' %}"
+      data-cream-back="{% static 'store/images/RonaldinhoBack.PNG' %}"
+    >
+      <div class="carousel-images">
+        <img
+          src="{% static 'store/images/Ronaldinho.PNG' %}"
+          alt="Ronaldinho front"
+        />
+        <img
+          src="{% static 'store/images/RonaldinhoBack.PNG' %}"
+          alt="Ronaldinho back"
+        />
+      </div>
+      <div class="arrow arrow-left"></div>
+      <div class="arrow arrow-right"></div>
+      <div class="dots"></div>
+      <div class="info-wrapper">
+        <p class="product-title">Футболка Ronaldinho</p>
+        <p class="price">3490 ₽</p>
+        <div class="size-options">
+          <span>S</span>
+          <span>M</span>
+          <span>L</span>
+          <span>XL</span>
+        </div>
+        <div class="color-options">
+          <span
+            class="color-swatch"
+            data-color="white"
+            style="background-color: #ffffff"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="cream"
+            style="background-color: #f5f5dc"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="black"
+            style="background-color: #000000"
+          ></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Футболка Zlatan -->
+    <div
+      class="product-card"
+      data-white-front="{% static 'store/images/Zlatan.PNG' %}"
+      data-white-back="{% static 'store/images/ZlatanBack.PNG' %}"
+      data-black-front="{% static 'store/images/Zlatan.PNG' %}"
+      data-black-back="{% static 'store/images/ZlatanBack.PNG' %}"
+      data-cream-front="{% static 'store/images/Zlatan.PNG' %}"
+      data-cream-back="{% static 'store/images/ZlatanBack.PNG' %}"
+    >
+      <div class="carousel-images">
+        <img src="{% static 'store/images/Zlatan.PNG' %}" alt="Zlatan front" />
+        <img
+          src="{% static 'store/images/ZlatanBack.PNG' %}"
+          alt="Zlatan back"
+        />
+      </div>
+      <div class="arrow arrow-left"></div>
+      <div class="arrow arrow-right"></div>
+      <div class="dots"></div>
+      <div class="info-wrapper">
+        <p class="product-title">Футболка Zlatan Ibrahimovic</p>
+        <p class="price">3490 ₽</p>
+        <div class="size-options">
+          <span>S</span>
+          <span>M</span>
+          <span>L</span>
+          <span>XL</span>
+        </div>
+        <div class="color-options">
+          <span
+            class="color-swatch"
+            data-color="white"
+            style="background-color: #ffffff"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="cream"
+            style="background-color: #f5f5dc"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="black"
+            style="background-color: #000000"
+          ></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Футболка Benzema -->
+    <div
+      class="product-card"
+      data-white-front="{% static 'store/images/Benzema.PNG' %}"
+      data-white-back="{% static 'store/images/BenzemaBack.PNG' %}"
+      data-black-front="{% static 'store/images/Benzema.PNG' %}"
+      data-black-back="{% static 'store/images/BenzemaBack.PNG' %}"
+      data-cream-front="{% static 'store/images/Benzema.PNG' %}"
+      data-cream-back="{% static 'store/images/BenzemaBack.PNG' %}"
+    >
+      <div class="carousel-images">
+        <img
+          src="{% static 'store/images/Benzema.PNG' %}"
+          alt="Benzema front"
+        />
+        <img
+          src="{% static 'store/images/BenzemaBack.PNG' %}"
+          alt="Benzema back"
+        />
+      </div>
+      <div class="arrow arrow-left"></div>
+      <div class="arrow arrow-right"></div>
+      <div class="dots"></div>
+      <div class="info-wrapper">
+        <p class="product-title">Футболка Karim Benzema</p>
+        <p class="price">3490 ₽</p>
+        <div class="size-options">
+          <span>S</span>
+          <span>M</span>
+          <span>L</span>
+          <span>XL</span>
+        </div>
+        <div class="color-options">
+          <span
+            class="color-swatch"
+            data-color="white"
+            style="background-color: #ffffff"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="cream"
+            style="background-color: #f5f5dc"
+          ></span>
+          <span
+            class="color-swatch"
+            data-color="black"
+            style="background-color: #000000"
+          ></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

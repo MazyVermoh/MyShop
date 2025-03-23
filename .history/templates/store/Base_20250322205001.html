@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}ABUZADA STORE{% endblock %}</title>
+    <!-- Подключаем стили -->
+    <link rel="stylesheet" href="{% static 'store/styles/main.css' %}" />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,700|IBM+Plex+Sans:400,600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Фиксированный верхний баннер (Скоро дроп) -->
+    <div class="top-banner">
+      <span>Скоро дроп</span>
+    </div>
+
+    <!-- Контейнер (flex-колонка, чтобы футер был внизу) -->
+    <div class="big-container">
+      <!-- Хедер (поиск, вход, регистрация, корзина) -->
+      <header class="header">
+        <div class="header__left">
+          <!-- Поисковый блок -->
+          <div class="search-block">
+            <div class="search-container">
+              <svg
+                class="search-icon"
+                width="14"
+                height="15"
+                viewBox="0 0 14 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10.6296 9.09628C11.1481 8.28147 11.4444 7.24443 11.4444 6.2074C11.4444 3.24443 9 0.799988 6.03704 0.799988C5 0.799988 3.96296 1.09628 3.14815 1.6148C2.48115 2.05925 1.88889 2.65184 1.44445 3.31851C0.925927 4.13332 0.629631 5.09628 0.629631 6.2074C0.629631 9.17036 3.07408 11.6148 6.03704 11.6148C7.07408 11.6148 8.11111 11.3185 8.92593 10.8L12.2593 14.1333L13.0741 13.3185L13.8889 12.5037L10.6296 9.09628ZM7.51852 9.31851C7.07407 9.54073 6.55556 9.68888 6.03704 9.68888C4.11111 9.68888 2.55556 8.13332 2.55556 6.2074C2.55556 5.68888 2.70371 5.17036 2.92593 4.72591C3.2963 3.98517 3.88889 3.39258 4.55556 3.09628C5 2.87406 5.51852 2.72591 6.03704 2.72591C7.96296 2.72591 9.51852 4.28147 9.51852 6.2074C9.51852 6.72591 9.37037 7.24443 9.14815 7.68888C8.85185 8.42962 8.25926 9.02221 7.51852 9.31851Z"
+                  fill="black"
+                />
+              </svg>
+              <input type="text" placeholder="Поиск" />
+            </div>
+          </div>
+          <!-- Вход / Регистрация -->
+          <nav class="auth-nav">
+            <a href="#">Вход</a>
+            <a href="#">Регистрация</a>
+          </nav>
+        </div>
+        <div class="header__right">
+          <!-- Корзина -->
+          <a href="#" class="cart-link">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14 4.29629H13.037H11.6296V4.14815C11.6296 2.14815 9.99999 0.59259 8.07406 0.59259C6.14814 0.59259 4.44443 2.14815 4.44443 4.14815V4.37037H2.96295H1.99999H0.962952V5.33333V6.29629V13.4815V14.4444V15.4074H1.92591H2.88888H12.8889H13.8518H15.037V14.4444V13.4815V6.29629V5.33333V4.29629H14ZM5.70369 4.14815C5.70369 2.88889 6.74073 1.85185 7.99999 1.85185C9.25925 1.85185 10.2963 2.88889 10.2963 4.14815V4.37037H5.70369V4.14815ZM13.037 13.4815H2.96295V6.29629H4.37036V8.29629H5.62962V6.29629H10.2222V8.29629H11.4815V6.29629H12.8889V13.4815H13.037Z"
+                fill="black"
+              />
+            </svg>
+            Корзина (0)
+          </a>
+          <span class="currency">РУБ</span>
+        </div>
+      </header>
+
+      <!-- Основная часть (сайдбар + контент) -->
+      <div class="main-layout">
+        <!-- Сайдбар (с логотипом) -->
+        <aside class="sidebar">
+          <div class="logo-bar">
+            <h1 class="logo-text">
+              <a href="{% url 'home' %}">
+                ABUZADA STORE
+                <span class="logo-r">®</span>
+              </a>
+            </h1>
+          </div>
+          <ul>
+            <li class="dropdown">
+              <a href="{% url 'collections_goat' %}">Коллекция</a>
+              <span class="sidebar-arrow"></span>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'collections_goat' %}">G.O.A.T</a></li>
+                <li><a href="{% url 'collections_elite' %}">Elite</a></li>
+                <li><a href="{% url 'collections_legends' %}">Legends</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="{% url 'kids_goat' %}">Детское</a>
+              <span class="sidebar-arrow"></span>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'kids_goat' %}">G.O.A.T</a></li>
+                <li><a href="{% url 'kids_elite' %}">Elite</a></li>
+                <li><a href="{% url 'kids_legends' %}">Legends</a></li>
+              </ul>
+            </li>
+            <li><a href="{% url 'promotions' %}">Акции</a></li>
+            <li><a href="{% url 'giftcards' %}">Подарочные карты</a></li>
+            <li><a href="{% url 'contacts' %}">Контакты</a></li>
+            <li><a href="{% url 'about' %}">О бренде</a></li>
+            <li><a href="{% url 'social' %}">Соц сети</a></li>
+          </ul>
+        </aside>
+
+        <!-- Обёртка для контента и футера -->
+        <div class="content-wrapper">
+          <main class="main-content">
+            {% block content %}
+            <!-- Здесь будет меняться контент каждой страницы -->
+            {% endblock %}
+          </main>
+          <!-- Футер -->
+          <footer class="footer">
+            <div class="footer-columns">
+              <div class="footer-col">
+                <h3>Для клиентов</h3>
+                <ul>
+                  <li><a href="#">Наши контакты</a></li>
+                  <li><a href="#">Доставка</a></li>
+                  <li><a href="#">Возвраты</a></li>
+                  <li><a href="#">Условия обслуживания</a></li>
+                </ul>
+              </div>
+              <div class="footer-col">
+                <h3>Полезные ссылки</h3>
+                <ul>
+                  <li><a href="#">О Abuzada Store</a></li>
+                  <li><a href="#">Instagram</a></li>
+                  <li><a href="#">TikTok</a></li>
+                  <li><a href="#">VK</a></li>
+                  <li><a href="#">Telegram</a></li>
+                </ul>
+              </div>
+              <div class="footer-col">
+                <h3>Рассылка</h3>
+                <p>
+                  Подпишитесь на рассылку, чтобы первыми узнавать о новинках.
+                </p>
+                <div class="subscribe-block">
+                  <input type="email" placeholder="Ваш email" />
+                  <button class="subscribe-button">
+                    <span class="subscribe-text">Подписаться</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="footer-bottom">
+              <span>Abuzada Store 2025.</span>
+            </div>
+          </footer>
+        </div>
+        <!-- конец content-wrapper -->
+      </div>
+      <!-- конец main-layout -->
+    </div>
+    <!-- конец big-container -->
+
+    <!-- Подключаем внешние скрипты -->
+    <script src="{% static 'store/scripts/carousel.js' %}"></script>
+  </body>
+</html>
