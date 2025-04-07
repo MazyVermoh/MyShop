@@ -1,0 +1,104 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}{{ product.name }} - ABUZADA STORE{% endblock %}
+
+{% block content %}
+<div class="product-detail">
+  <!-- Левая колонка: основное изображение и миниатюра -->
+  <div class="product-images">
+    <img
+      class="main-image"
+      src="{{ product.image.url|default_if_none:static 'store/images/Messi.PNG' }}"
+      alt="{{ product.name }}"
+    />
+    <div class="thumbnail-container">
+      <!-- Пока статическая миниатюра, или при желании используйте ту же image -->
+      <img
+        class="thumbnail"
+        src="{% static 'store/images/MessiBack.PNG' %}"
+        alt="Thumbnail"
+      />
+    </div>
+  </div>
+
+  <!-- Правая колонка: информация о товаре -->
+  <div class="product-info">
+    <h1>{{ product.name }}</h1>
+    <p class="price">{{ product.price }} ₽</p>
+
+    <!-- Пример статических цветов -->
+    <div class="color-section">
+      <p>Цвет:</p>
+      <div class="color-options">
+        <span
+          class="color-swatch"
+          data-color="white"
+          style="background-color: #ffffff;"
+          title="Белый"
+        ></span>
+        <span
+          class="color-swatch"
+          data-color="cream"
+          style="background-color: #f5f5dc;"
+          title="Бежевый"
+        ></span>
+        <span
+          class="color-swatch"
+          data-color="black"
+          style="background-color: #000000;"
+          title="Чёрный"
+        ></span>
+      </div>
+    </div>
+
+    <!-- Выбор размера -->
+    <div class="size-section">
+      <p>Размер:</p>
+      <div class="size-options">
+        <button class="size-button">S</button>
+        <button class="size-button">M</button>
+        <button class="size-button">L</button>
+        <button class="size-button">XL</button>
+      </div>
+    </div>
+
+    <!-- Кнопка добавления в корзину -->
+    <button class="add-to-cart-button">
+      Добавить в корзину
+    </button>
+
+    <!-- Вкладки: Описание и Доп. инфо -->
+    <div class="tab-container">
+      <button class="tab-button active" data-tab="description">Описание</button>
+      <button class="tab-button" data-tab="additional">Additional Info</button>
+    </div>
+    <div class="tab-content">
+      <div class="tab-panel" id="description">
+        <p>{{ product.description }}</p>
+      </div>
+      <div class="tab-panel hidden" id="additional">
+        <p>{{ product.additional_info }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Блок «Вам могут понравиться» -->
+{% if recommended_products %}
+<div class="recommended-products">
+  <h2>Вам могут понравиться</h2>
+  <div class="recommended-grid">
+    {% for rec in recommended_products %}
+      <div class="recommended-item">
+        <a href="{% url 'product_detail' rec.slug %}">
+          <!-- Если у rec.image нет, можно подставить заглушку -->
+          <img src="{{ rec.image.url|default_if_none:static 'store/images/Neymar.PNG' }}" alt="{{ rec.name }}">
+          <p>{{ rec.name }}</p>
+          <p>{{ rec.price }} ₽</p>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

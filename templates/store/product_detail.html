@@ -1,0 +1,134 @@
+{% extends 'store/base.html' %} {% load static %} {% block title %}{{
+product.name }} - ABUZADA STORE{% endblock %} {% block content %}
+<div class="product-detail">
+  <!-- Левая колонка: основное изображение -->
+  <div class="product-images">
+    {% if product.image %}
+    <!-- Если у товара есть загруженное изображение (product.image), показываем его -->
+    <img
+      id="mainImage"
+      class="main-image"
+      src="{{ product.image.url }}"
+      alt="{{ product.name }}"
+    />
+    {% else %}
+    <!-- Иначе показываем Messi.PNG -->
+    <img
+      id="mainImage"
+      class="main-image"
+      src="{% static 'store/images/Messi.PNG' %}"
+      alt="{{ product.name }}"
+    />
+    {% endif %}
+
+    <!-- Миниатюра (задняя часть). При клике JS может менять местами front/back -->
+    <div class="thumbnail-container">
+      <img
+        class="thumbnail"
+        src="{% static 'store/images/MessiBack.PNG' %}"
+        alt="{{ product.name }} back"
+      />
+    </div>
+  </div>
+
+  <!-- Правая колонка: Информация о товаре -->
+  <div class="product-info">
+    <h1>{{ product.name }}</h1>
+    <p class="price">{{ product.price }} ₽</p>
+
+    <!-- Выбор цвета -->
+    <div class="color-section">
+      <p>Цвет:</p>
+      <div class="color-options">
+        <!-- У нас нет отдельных файлов для каждого цвета (white, cream, black),
+             поэтому все указывают на Messi.PNG / MessiBack.PNG -->
+        <span
+          class="color-swatch"
+          data-color="white"
+          data-front="{% static 'store/images/Messi.PNG' %}"
+          data-back="{% static 'store/images/MessiBack.PNG' %}"
+          style="background-color: #ffffff"
+          title="Белый"
+        ></span>
+        <span
+          class="color-swatch"
+          data-color="cream"
+          data-front="{% static 'store/images/Messi.PNG' %}"
+          data-back="{% static 'store/images/MessiBack.PNG' %}"
+          style="background-color: #f5f5dc"
+          title="Бежевый"
+        ></span>
+        <span
+          class="color-swatch"
+          data-color="black"
+          data-front="{% static 'store/images/Messi.PNG' %}"
+          data-back="{% static 'store/images/MessiBack.PNG' %}"
+          style="background-color: #000000"
+          title="Чёрный"
+        ></span>
+      </div>
+    </div>
+
+    <!-- Выбор размера -->
+    <div class="size-section">
+      <p>Размер:</p>
+      <div class="size-options">
+        <!-- При клике на кнопку мы будем подсвечивать выбранный размер в JS -->
+        <button class="size-button" data-size="S">S</button>
+        <button class="size-button" data-size="M">M</button>
+        <button class="size-button" data-size="L">L</button>
+        <button class="size-button" data-size="XL">XL</button>
+      </div>
+    </div>
+
+    <!-- Кнопка «Добавить в корзину» -->
+    <button class="add-to-cart-button">Добавить в корзину</button>
+
+    <!-- Вкладки: Описание и Доп. инфо -->
+    <div class="tab-container">
+      <button class="tab-button active" data-tab="description">Описание</button>
+      <button class="tab-button" data-tab="additional">Additional Info</button>
+    </div>
+    <div class="tab-content">
+      <div class="tab-panel" id="description">
+        {% if product.description %}
+        <p>{{ product.description }}</p>
+        {% else %}
+        <p>Здесь будет описание футболки.</p>
+        {% endif %}
+      </div>
+      <div class="tab-panel hidden" id="additional">
+        {% if product.additional_info %}
+        <p>{{ product.additional_info }}</p>
+        {% else %}
+        <p>Дополнительная информация не указана.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Блок «Вам могут понравиться» -->
+{% if recommended_products %}
+<div class="recommended-products">
+  <h2>Вам могут понравиться</h2>
+  <div class="recommended-grid">
+    {% for rec in recommended_products %}
+    <div class="recommended-item">
+      <a href="{% url 'product_detail' rec.slug %}">
+        {% if rec.image %}
+        <img src="{{ rec.image.url }}" alt="{{ rec.name }}" />
+        {% else %}
+        <img
+          src="{% static 'store/images/Neymar.PNG' %}"
+          alt="{{ rec.name }}"
+        />
+        {% endif %}
+        <p>{{ rec.name }}</p>
+        <p>{{ rec.price }} ₽</p>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %} {% endblock %}

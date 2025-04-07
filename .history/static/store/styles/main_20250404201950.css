@@ -1,0 +1,718 @@
+/* 1. html, body на всю высоту */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. Основной шрифт */
+body {
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  background-color: #fff;
+  color: #000;
+}
+
+/* 3. Фиксированный баннер (Скоро дроп) */
+.top-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-color: #e4e4e4;
+  text-align: center;
+  line-height: 40px;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: bold;
+  font-size: 14px;
+  z-index: 9999;
+}
+
+/* 4. big-container */
+.big-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding-top: 80px;
+  padding-right: 20px; /* уменьшено с 50px */
+  padding-left: 20px; /* уменьшено с 50px */
+  padding-bottom: 50px;
+}
+
+/* 5. Хедер */
+.header {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  z-index: 9998;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+.search-block {
+  display: flex;
+  align-items: center;
+}
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 204px;
+  height: 26px;
+  padding: 0 5px;
+  background-color: transparent;
+  border: none;
+}
+.search-icon {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+}
+.search-container input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  background-color: transparent;
+}
+.auth-nav a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #000;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  line-height: 40px;
+}
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.cart-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #000;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  line-height: 40px;
+}
+.cart-link svg {
+  width: 20px;
+  height: 20px;
+  fill: #000;
+  position: relative;
+  top: -2px;
+}
+.currency {
+  font-weight: bold;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  line-height: 40px;
+}
+
+/* Лого бар */
+.logo-bar {
+  margin-bottom: 0;
+  white-space: nowrap;
+  position: relative;
+  top: -20px;
+}
+.logo-text {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  display: inline-block;
+}
+.logo-text a {
+  display: inline-block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+}
+.logo-text a:hover {
+  text-decoration: none !important;
+}
+.logo-r {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-size: 24px;
+  line-height: 20px;
+  font-weight: bold;
+  position: relative;
+  top: 0;
+  left: -3px;
+}
+
+/* 6. Основная раскладка (сайдбар + контент) */
+.main-layout {
+  display: flex;
+  flex: 1;
+  margin-bottom: 50px;
+  gap: 30px;
+}
+.sidebar {
+  position: sticky;
+  top: 158px;
+  align-self: flex-start;
+  width: 200px;
+  flex-shrink: 0;
+}
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sidebar li {
+  margin-bottom: 10px;
+}
+.sidebar a {
+  text-decoration: none;
+  color: #000;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* Стрелка в сайдбаре */
+.sidebar-arrow {
+  display: none;
+  margin-left: 5px;
+  width: 10px;
+  height: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1 L5 5 L9 1' stroke='%23000' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  vertical-align: middle;
+  transition: transform 0.3s ease;
+}
+.dropdown:hover .sidebar-arrow,
+.dropdown.active .sidebar-arrow {
+  display: inline-block;
+}
+.dropdown.active .sidebar-arrow {
+  transform: rotate(180deg);
+}
+.dropdown-menu {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+.dropdown.active .dropdown-menu {
+  max-height: 300px;
+  opacity: 1;
+}
+.dropdown {
+  position: relative;
+}
+.dropdown > a {
+  cursor: pointer;
+}
+.dropdown-menu {
+  margin-left: 20px;
+  margin-top: 5px;
+  list-style: none;
+}
+.dropdown-menu li a {
+  display: block;
+  padding: 5px 10px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  color: #000;
+  text-decoration: none;
+}
+.dropdown-menu li a:hover {
+  background: #f0f0f0;
+}
+
+/* Обёртка для контента и футера */
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* 7. Контент (товары) */
+.main-content {
+  flex: 1;
+  padding-top: 90px;
+}
+.products h2 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 17px;
+  margin-bottom: 20px;
+}
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 40px;
+}
+.product-card {
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.carousel-images {
+  display: flex;
+  width: 100%;
+  position: relative;
+  transition: transform 0.35s ease;
+}
+.carousel-images img {
+  min-width: 100%;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.arrow {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 10px 14px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 2;
+}
+.product-card:hover .arrow {
+  opacity: 1;
+  pointer-events: auto;
+}
+.arrow-left {
+  left: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='14' viewBox='0 0 10 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 1 L2 7 L8 13' stroke='%23e4e4e4' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.arrow-right {
+  right: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='14' viewBox='0 0 10 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 1 L8 7 L2 13' stroke='%23e4e4e4' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 5px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.dot {
+  width: 4px;
+  height: 4px;
+  background-color: #bbb;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.dot.active {
+  background-color: #000;
+}
+.product-card:hover .dots {
+  opacity: 1;
+}
+
+/* Информация: название, цена и размеры */
+.info-wrapper {
+  position: relative;
+  height: 50px;
+  margin-top: 10px;
+  transition: all 0.2s ease;
+}
+.product-title,
+.price {
+  transition: opacity 0.2s;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+}
+.product-title {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  top: -30px;
+}
+.price {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  top: -10px;
+}
+.size-options {
+  position: absolute;
+  width: 100%;
+  top: -5px;
+  left: 0;
+  text-align: center;
+  display: none;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+}
+.product-card:hover .product-title,
+.product-card:hover .price {
+  opacity: 0;
+}
+.product-card:hover .size-options {
+  display: block;
+}
+.size-options span:hover {
+  text-decoration: underline;
+}
+
+/* Цвета (смена изображений) */
+/* --- Изменённый блок кружков (вернули старые размеры) --- */
+.color-options {
+  display: none;
+  position: absolute;
+  top: -55px;
+  left: 50%;
+  transform: translateX(-50%);
+  justify-content: center;
+  gap: 8px;
+}
+.color-swatch {
+  display: inline-block;
+  width: 8.5px !important;
+  height: 8.5px !important;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  transition: transform 0.3s ease !important;
+}
+.color-swatch:hover {
+  transform: scale(1.1) !important;
+}
+.product-card:hover .color-options {
+  display: flex;
+}
+
+/* 8. Футер */
+.footer {
+  margin-top: auto;
+  padding-top: 100px;
+  padding-bottom: 0;
+  background-color: #fff;
+}
+.footer-columns {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+.footer-col h3 {
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+.footer-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.footer-col li {
+  margin-bottom: 8px;
+}
+.footer-col a {
+  text-decoration: none;
+  color: #000;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  line-height: 22px;
+}
+.footer-col p {
+  margin-bottom: 15px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* Блок подписки */
+.subscribe-block {
+  position: relative;
+  width: 272px;
+  height: 48px;
+}
+.subscribe-block input {
+  position: absolute;
+  left: 0;
+  width: calc(100% - 114.63px);
+  height: 48px;
+  border: none;
+  outline: none;
+  padding: 0 10px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  background-color: #fff;
+  color: #808080;
+  line-height: 48px;
+}
+.subscribe-button {
+  position: absolute;
+  width: 114.63px;
+  height: 48px;
+  right: 0;
+  top: calc(50% - 24px);
+  background: #e4e4e4;
+  border-radius: 4px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.subscribe-text {
+  position: absolute;
+  width: 108px;
+  height: 16px;
+  left: 3.66px;
+  top: 15.62px;
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 1px;
+  color: #000000;
+}
+
+/* Нижняя часть футера */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+}
+
+/* Ховер-эффекты (для всех ссылок) */
+a:hover {
+  text-decoration: underline;
+}
+.logo-text a:hover {
+  text-decoration: none !important;
+}
+
+/* 9. Адаптивность */
+@media (max-width: 768px) {
+  .top-banner {
+    position: static;
+    height: auto;
+  }
+  .header {
+    position: static;
+    height: auto;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 1);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .big-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .main-layout {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .sidebar {
+    position: static;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    justify-items: center;
+  }
+  .footer {
+    margin-top: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .footer-columns {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+/* ---------------------------------------
+   Giftcard-specific styles
+--------------------------------------- */
+.product-card.giftcard:hover .product-title,
+.product-card.giftcard:hover .price {
+  opacity: 1 !important;
+}
+.product-card.giftcard .size-options,
+.product-card.giftcard .color-options {
+  display: none !important;
+}
+
+/* ---------------------------------------
+   Дополнительные стили для страницы товара (Шаг 6)
+--------------------------------------- */
+.product-detail {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+}
+.product-images {
+  flex: 1;
+}
+.main-image {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+}
+.thumbnail-container {
+  margin-top: 10px;
+}
+.thumbnail {
+  width: 100px;
+  cursor: pointer;
+  margin-right: 10px;
+  height: auto;
+}
+.product-info {
+  flex: 1;
+}
+.product-info h1 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.product-info .price {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* Отступы для секций выбора цвета/размера */
+.color-section,
+.size-section {
+  margin: 15px 0;
+}
+.color-swatch {
+  display: inline-block;
+  width: 8.5px !important;
+  height: 8.5px !important;
+  border: 1px solid #ccc;
+  margin-right: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s ease !important;
+}
+.color-swatch:hover {
+  transform: scale(1.1) !important;
+}
+.size-button {
+  margin-right: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-family: "IBM Plex Mono", monospace;
+}
+.add-to-cart-button {
+  margin: 15px 0;
+  padding: 10px 20px;
+  background-color: #e4e4e4;
+  border: none;
+  cursor: pointer;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* Вкладки (Описание / Additional Info) */
+.tab-container {
+  margin-top: 20px;
+}
+.tab-button {
+  background: none;
+  border: none;
+  font-family: "IBM Plex Mono", monospace;
+  cursor: pointer;
+  margin-right: 10px;
+  padding: 5px 10px;
+}
+.tab-button.active {
+  border-bottom: 2px solid #000;
+}
+.tab-content {
+  margin-top: 10px;
+}
+.tab-panel {
+  display: block;
+}
+.tab-panel.hidden {
+  display: none;
+}
+
+/* Рекомендуемые товары */
+.recommended-products {
+  margin-top: 40px;
+}
+.recommended-products h2 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 17px;
+  margin-bottom: 20px;
+}
+.recommended-grid {
+  display: flex;
+  gap: 20px;
+}
+.recommended-item {
+  text-align: center;
+  width: 160px;
+  margin: 0 auto;
+}
+.recommended-item img {
+  max-width: 150px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.recommended-item p {
+  margin: 5px 0;
+}
+
+/* Подсветка выбранного цвета / размера */
+.color-swatch.active-color {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+.size-button.active-size {
+  background-color: #000;
+  color: #fff;
+}
