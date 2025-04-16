@@ -1,0 +1,101 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}{{ product.name }} - ABUZADA STORE{% endblock %}
+{% block content %}
+<div class="product-detail">
+
+  <!-- Левая колонка: основное изображение + миниатюра -->
+  <div class="product-images">
+    <!-- Основная картинка (front) -->
+    <img
+      id="mainImage"
+      class="main-image"
+      {% if product.main_photo %}
+        src="{{ product.main_photo.image.url }}"
+      {% else %}
+        src="{% static 'store/images/no_image.png' %}"
+      {% endif %}
+      alt="{{ product.name }}"
+    />
+
+    <!-- Миниатюра (back) -->
+    <div class="thumbnail-container">
+      {% if product.second_photo %}
+        <img
+          class="thumbnail thumbnail-raised"
+          src="{{ product.second_photo.image.url }}"
+          alt="{{ product.name }} back"
+        />
+      {% else %}
+        <img
+          class="thumbnail thumbnail-raised"
+          src="{% static 'store/images/no_image.png' %}"
+          alt="{{ product.name }} back"
+        />
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Правая колонка: Информация о товаре -->
+  <div class="product-info">
+    <h1>{{ product.name }}</h1>
+    <p class="price">{{ product.price }} ₽</p>
+
+    <!-- Блок выбора цвета (свотчи) -->
+    <div class="color-section">
+      <p>Цвет:</p>
+      <div class="color-options">
+
+
+
+    <!-- Кнопка «Добавить в корзину» (заглушка) -->
+    <button class="add-to-cart-button">Добавить в корзину</button>
+
+    <!-- Вкладки: Описание / Доп. информация -->
+    <div class="tab-container">
+      <button class="tab-button active" data-tab="description">Описание</button>
+      <button class="tab-button" data-tab="additional">Доп. информация</button>
+    </div>
+    <div class="tab-content">
+      <div class="tab-panel" id="description">
+        {% if product.description %}
+          <p>{{ product.description }}</p>
+        {% else %}
+          <p>Здесь будет описание футболки.</p>
+        {% endif %}
+      </div>
+      <div class="tab-panel hidden" id="additional">
+        {% if product.additional_info %}
+          <p>{{ product.additional_info }}</p>
+        {% else %}
+          <p>Дополнительная информация не указана.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Блок «Вам могут понравиться» -->
+{% if recommended_products %}
+<div class="recommended-products">
+  <h2>Вам могут понравиться</h2>
+  <div class="recommended-grid">
+    {% for rec in recommended_products %}
+      <div class="recommended-item">
+        <a href="{% url 'product_detail' rec.slug %}">
+          {% with rec_first=rec.images.first %}
+            {% if rec_first %}
+              <img src="{{ rec_first.image.url }}" alt="{{ rec.name }}" />
+            {% else %}
+              <img src="{% static 'store/images/no_image.png' %}" alt="No image" />
+            {% endif %}
+          {% endwith %}
+          <p>{{ rec.name }}</p>
+          <p>{{ rec.price }} ₽</p>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

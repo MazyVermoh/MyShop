@@ -1,0 +1,95 @@
+{% extends 'store/base.html' %} {% load static %} {% block title %}Главная -
+ABUZADA STORE{% endblock %} {% block content %}
+<section class="products">
+  <h2>Новое</h2>
+  <div class="products-grid">
+    {% for product in products %}
+    <a href="{% url 'product_detail' product.slug %}" class="product-card">
+      <!-- Главное изображение (используем product.main_photo) -->
+      <div class="carousel-images">
+        {% if product.main_photo %}
+        <img
+          src="{{ product.main_photo.image.url }}"
+          alt="{{ product.name }} front"
+        />
+        {% else %}
+        <img
+          src="{% static 'store/images/no_image.png' %}"
+          alt="{{ product.name }} front"
+        />
+        {% endif %}
+
+        <!-- Второе изображение через срез, без вызова filter() в шаблоне -->
+        {% with second_photo=product.images.all|slice:"1:2" %} {% if
+        second_photo and second_photo.0 %}
+        <img
+          src="{{ second_photo.0.image.url }}"
+          alt="{{ product.name }} back"
+        />
+        {% else %}
+        <img
+          src="{% static 'store/images/no_image.png' %}"
+          alt="{{ product.name }} back"
+        />
+        {% endif %} 
+      {% endwith %}
+      </div>
+
+      <div class="arrow arrow-left"></div>
+      <div class="arrow arrow-right"></div>
+      <div class="dots"></div>
+
+      <div class="info-wrapper">
+        <p class="product-title">{{ product.name }}</p>
+        <p class="price">{{ product.price }} ₽</p>
+
+        <!-- Динамический вывод размеров -->
+        <div class="size-options">
+          {% for size in product.sizes.all %}
+          <span onclick="event.preventDefault(); event.stopPropagation();">
+            {{ size.name }}
+          </span>
+          {% endfor %}
+        </div>
+
+        <!-- Динамический вывод цветов -->
+        <div class="color-options">
+          {% for color in product.colors.all %}
+          <span
+            class="color-swatch"
+            data-color="{{ color.name }}"
+            {%
+            if
+            color.front_image
+            %}
+            data-front="{{ color.front_image.url }}"
+            {%
+            else
+            %}
+            data-front="{% static 'store/images/default_front.png' %}"
+            {%
+            endif
+            %}
+            {%
+            if
+            color.back_image
+            %}
+            data-back="{{ color.back_image.url }}"
+            {%
+            else
+            %}
+            data-back="{% static 'store/images/default_back.png' %}"
+            {%
+            endif
+            %}
+            style="background-color: {{ color.code }};"
+            onclick="event.preventDefault(); event.stopPropagation();"
+          ></span>
+          {% endfor %}
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
