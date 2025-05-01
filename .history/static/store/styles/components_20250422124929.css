@@ -1,0 +1,265 @@
+/* 1. html, body на всю высоту */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Отключаем горизонтальную прокрутку */
+}
+
+/* 2. Основной шрифт */
+body {
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  background-color: #fff;
+  color: #000;
+}
+
+/* 3. Фиксированный баннер (Скоро дроп) */
+.top-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-color: #e4e4e4;
+  text-align: center;
+  line-height: 40px;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: bold;
+  font-size: 14px;
+  z-index: 9999;
+}
+
+/* 4. big-container */
+.big-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding-top: 120px; /* Увеличено с 80px */
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 50px;
+}
+
+/* 5. Хедер */
+.header {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  z-index: 9998;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  background-color: rgba(255,255,255,0.8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+.search-block {
+  display: flex;
+  align-items: center;
+}
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 204px;
+  height: 26px;
+  padding: 0 5px;
+  background-color: transparent;
+  border: none;
+}
+.search-icon {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+}
+.search-container input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  background-color: transparent;
+}
+.auth-nav a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #000;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  line-height: 40px;
+}
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.cart-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #000;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  line-height: 40px;
+}
+.cart-link svg {
+  width: 20px;
+  height: 20px;
+  fill: #000;
+  position: relative;
+  top: -2px;
+}
+.currency {
+  font-weight: bold;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  line-height: 40px;
+}
+
+/* Лого бар */
+.logo-bar {
+  margin-bottom: 0;
+  white-space: nowrap;
+  position: relative;
+  top: -20px;
+}
+.logo-text {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  display: inline-block;
+}
+.logo-text a {
+  display: inline-block;
+  color: #000;
+  text-decoration: none;
+}
+.logo-text a:hover {
+  text-decoration: none !important;
+}
+.logo-r {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-size: 24px;
+  line-height: 20px;
+  font-weight: bold;
+  position: relative;
+  top: 0;
+  left: -3px;
+}
+
+/* 6. Основная раскладка (сайдбар + контент) */
+.main-layout {
+  display: flex;
+  flex: 1;
+  margin-bottom: 50px;
+  gap: 30px;
+}
+.sidebar {
+  position: sticky;
+  top: 158px;
+  align-self: flex-start;
+  width: 200px;
+  flex-shrink: 0;
+}
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sidebar li {
+  margin-bottom: 10px;
+}
+.sidebar a {
+  text-decoration: none;
+  color: #000;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* Стрелка в сайдбаре */
+.sidebar-arrow {
+  display: none;
+  margin-left: 5px;
+  width: 10px;
+  height: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1 L5 5 L9 1' stroke='%23000' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  vertical-align: middle;
+  transition: transform 0.3s ease;
+}
+.dropdown:hover .sidebar-arrow,
+.dropdown.active .sidebar-arrow {
+  display: inline-block;
+}
+.dropdown.active .sidebar-arrow {
+  transform: rotate(180deg);
+}
+.dropdown-menu {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+.dropdown.active .dropdown-menu {
+  max-height: 300px;
+  opacity: 1;
+}
+.dropdown {
+  position: relative;
+}
+.dropdown > a {
+  cursor: pointer;
+}
+.dropdown-menu {
+  margin-left: 20px;
+  margin-top: 5px;
+  list-style: none;
+}
+.dropdown-menu li a {
+  display: block;
+  padding: 5px 10px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  color: #000;
+  text-decoration: none;
+}
+.dropdown-menu li a:hover {
+  background: #f0f0f0;
+}
+
+/* Обёртка для контента и футера */
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ─────────────────────────────────────────────
+   Общие ховеры и подчёркивание ссылок при ховере
+───────────────────────────────────────────── */
+a:hover {
+  text-decoration: underline !important;
+}
+.auth-nav a:hover,
+.sidebar a:hover,
+.footer-col a:hover {
+  text-decoration: underline !important;
+}

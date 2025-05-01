@@ -1,0 +1,32 @@
+/* ──────────────────────────────────────────────
+   Base / Reset
+   ───────────────────────────────────────────── */
+
+   html,
+   body {
+     height: 100%;
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     overflow-x: hidden;              /* без горизонтального скролла */
+   }
+   
+   /* основной шрифт и цвета по умолчанию */
+   body {
+     font-family: "IBM Plex Sans", Arial, sans-serif;
+     background-color: #fff;
+     color: #000;
+   }
+   
+   /* ──────────────────────────────────────────────
+      Global helpers / утилиты
+      ───────────────────────────────────────────── */
+   
+   /* универсальный ховер для ссылок */
+   a:hover { text-decoration: underline; }
+   
+   /* исключение для логотипа */
+   .logo-text a:hover { text-decoration: none !important; }
+   
+   /* класс для скрытия (таб «Описание» / «Доп. информация») */
+   .tab-panel.hidden { display: none; }

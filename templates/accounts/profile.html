@@ -1,0 +1,21 @@
+{% extends "store/base.html" %}
+{% block title %}Профиль – ABUZADA STORE{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <h2 class="auth-heading">Мой профиль</h2>
+
+
+  <p style="font-family:'IBM Plex Mono',monospace">
+      Имя: {{ request.user.first_name }} {{ request.user.last_name }}<br>
+      E-mail: {{ request.user.email|default:"—" }}<br>
+      Телефон: {{ request.user.phone|default:"—" }}
+  </p>
+
+  {# кнопка «Выйти» → POST на /accounts/logout/ #}
+  <form method="post" action="{% url 'accounts:logout' %}" class="logout-form" style="margin-top:18px">
+      {% csrf_token %}
+      <button type="submit" class="auth-submit">Выйти из аккаунта</button>
+  </form>
+</div>
+{% endblock %}

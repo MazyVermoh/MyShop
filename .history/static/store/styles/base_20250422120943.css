@@ -1,0 +1,19 @@
+/* Reset + основные шрифты  --------------------- */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+body {
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  background-color: #fff;
+  color: #000;
+}
+
+/* Общие ховеры / утилиты ----------------------- */
+a:hover { text-decoration: underline; }
+.logo-text a:hover { text-decoration: none !important; }
+.tab-panel.hidden { display: none; }

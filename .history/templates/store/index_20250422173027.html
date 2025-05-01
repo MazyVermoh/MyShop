@@ -1,0 +1,58 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Главная – ABUZADA STORE{% endblock %}
+
+{% block content %}
+<section class="products">
+  <h2>Новое</h2>
+
+  <div class="products-grid">
+    {% for product in products %}
+      <div class="product-card"
+           data-product-url="{% url 'product_detail' product.slug %}">
+
+        {# — КАРУСЕЛЬ: выводим только filtered_images (по умолчанию белый) — #}
+        <div class="carousel-images">
+          {% for img in product.filtered_images %}
+            <img src="{{ img.image.url }}" alt="{{ product.name }}">
+          {% empty %}
+            <img src="{% static 'store/images/no_image.png' %}"
+                 alt="{{ product.name }}">
+          {% endfor %}
+        </div>
+        <div class="arrow arrow-left"></div>
+        <div class="arrow arrow-right"></div>
+        <div class="dots"></div>
+
+        <div class="info-wrapper">
+          <p class="product-title">{{ product.name }}</p>
+          <p class="price">{{ product.price }} ₽</p>
+        </div>
+
+        {# — SWATCH’и: переключают карусель и запоминают выбор цвета — #}
+        <div class="color-options">
+          {% for sw in product.swatches %}
+            <span
+              class="color-swatch"
+              style="background-color: {{ sw.code }};"
+              data-color-id="{{ sw.id }}"
+              {% if not sw.has_image %}data-empty="1"{% endif %}
+              {% if sw.front_url %}data-front="{{ sw.front_url }}"{% endif %}
+              {% if sw.back_url  %}data-back="{{ sw.back_url }}"{% endif %}>
+            </span>
+          {% endfor %}
+        </div>
+
+        {# — РАЗМЕРЫ — #}
+        <div class="size-options">
+          {% for size in product.sizes.all %}
+            <span class="size-option">{{ size.name }}</span>
+          {% endfor %}
+        </div>
+
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

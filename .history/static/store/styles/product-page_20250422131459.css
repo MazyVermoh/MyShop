@@ -1,0 +1,147 @@
+/* /static/store/styles/product-page.css */
+
+/* Страница товара */
+.product-detail {
+    display: flex;
+    gap: 40px;
+    margin-top: -10px;
+    max-width: 1200px;
+    margin-left: 30px;
+    margin-right: auto;
+    padding: 0 10px;
+  }
+  .product-images {
+    flex: 1;
+  }
+  .main-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+  }
+  .thumbnail-container {
+    margin-top: 10px;
+  }
+  .thumbnail {
+    width: 100px;
+    cursor: pointer;
+    margin-right: 10px;
+    height: auto;
+  }
+  .product-info {
+    flex: 1;
+  }
+  .product-info h1 {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  /* Цвета и размеры */
+  .color-section,
+  .size-section {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 14px 0; /* было 22px */
+  }
+  .section-label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+  .product-detail .color-swatch {
+    display: inline-block;
+    width: 15px !important;
+    height: 15px !important;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease !important;
+    transform: translateY(2px);
+  }
+  .product-detail .color-swatch:hover {
+    transform: scale(1.1) !important;
+  }
+  
+  /* Кастомный селект размера */
+  .custom-select {
+    position: relative;
+    width: 120px;
+  }
+  .custom-select select {
+    appearance: none;
+    width: 100%;
+    padding: 8px 26px 8px 10px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    border: 1px solid #000;
+    background: #fff;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .custom-select::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    top: 50%;
+    right: 10px;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
+    transform: translateY(-60%) rotate(45deg);
+  }
+  
+  /* Кнопка добавления в корзину */
+  .add-to-cart-button {
+    margin: 15px 0;
+    padding: 12px 25px;
+    background-color: #e4e4e4;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 16px;
+  }
+  
+  /* Правки для селекта, свотчей и цены */
+  .custom-select {
+    width: auto;
+    min-width: 30px;
+  }
+  .custom-select select {
+    border: none !important;
+    padding: 4px 20px 4px 0;
+    font-size: 14px;
+    letter-spacing: normal;
+  }
+  .custom-select::after {
+    right: 4px;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid #000;
+    border-bottom: 1.5px solid #000;
+    transform: translateY(-60%) rotate(45deg);
+  }
+  .section-label {
+    letter-spacing: normal !important;
+    font-size: 14px;
+  }
+  .product-detail .color-options {
+    gap: 12px !important;
+  }
+  
+  /* Цена под заголовком */
+  .product-info h1 + .price {
+    display: block;
+    font-size: 16px;
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 600;
+    margin: 8px 0 20px;
+  }
+  .product-info .price {
+    position: static !important;
+    width: auto !important;
+    display: block;
+    margin: 4px 0 22px;
+    text-align: left;
+  }

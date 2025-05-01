@@ -1,0 +1,74 @@
+/* Верхний баннер  ------------------------------ */
+.top-banner {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 40px; background: #e4e4e4;
+    text-align: center; line-height: 40px;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: bold; font-size: 14px;
+    z-index: 9999;
+  }
+  
+  /* Каркас страницы ------------------------------ */
+  .big-container {
+    display: flex; flex-direction: column;
+    min-height: 100vh; max-width: 1600px; margin: 0 auto;
+    padding: 120px 20px 50px;
+  }
+  .main-layout      { display: flex; flex: 1; gap: 30px; margin-bottom: 50px; }
+  .content-wrapper  { display: flex; flex-direction: column; flex: 1; }
+  
+  /* Хедер ---------------------------------------- */
+  .header {
+    position: fixed; top: 40px; left: 0; right: 0; height: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 50px; z-index: 9998;
+    background: rgba(255,255,255,.8); backdrop-filter: blur(5px);
+  }
+  .header__left  { display: flex; align-items: center; gap: 50px; }
+  .header__right { display: flex; align-items: center; gap: 30px; }
+  
+  /* Сайдбар -------------------------------------- */
+  .sidebar {
+    position: sticky; top: 158px; align-self: flex-start;
+    width: 200px; flex-shrink: 0;
+  }
+  .sidebar ul     { list-style: none; margin: 0; padding: 0; }
+  .sidebar li     { margin-bottom: 10px; }
+  .sidebar a      { text-decoration: none; color:#000;
+                    font-family:"IBM Plex Mono", monospace; font-size:16px; }
+  
+  /* Лого ----------------------------------------- */
+  .logo-bar  { margin-bottom: 0; white-space: nowrap; position: relative; top:-20px; }
+  .logo-text { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:24px;
+               font-weight:bold; margin:0; display:inline-block; }
+  .logo-r    { display:inline-block; width:20px; height:20px; font-size:24px;
+               line-height:20px; font-weight:bold; position:relative; left:-3px; }
+  
+  /* Футер ---------------------------------------- */
+  .footer            { margin-top:auto; padding-top:100px; }
+  .footer-columns    { display:flex; justify-content:space-between; margin-bottom:30px; }
+  .footer-col h3     { font-family:"Courier New", monospace; font-weight:bold;
+                       margin-bottom:15px; font-size:16px; }
+  .footer-col ul,
+  .footer-col p      { margin:0; padding:0; list-style:none;
+                       font-family:"IBM Plex Mono", monospace; font-size:14px; line-height:22px; }
+  .footer-col li     { margin-bottom:8px; }
+  .footer-bottom     { display:flex; justify-content:space-between;
+                       font-family:"IBM Plex Mono", monospace; font-size:12px; }
+  
+  /* Subscribe‑блок ------------------------------- */
+  .subscribe-block  { position:relative; width:272px; height:48px; }
+  .subscribe-block input {
+    position:absolute; left:0; width:calc(100% - 114.63px); height:48px;
+    border:none; outline:none; padding:0 10px;
+    font-family:"IBM Plex Mono", monospace; font-size:14px;
+    background:#fff; color:#808080; line-height:48px;
+  }
+  .subscribe-button {
+    position:absolute; right:0; top:0; width:114.63px; height:48px;
+    background:#e4e4e4; border:none; border-radius:4px; cursor:pointer;
+  }
+  .subscribe-text {
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:"IBM Plex Mono", monospace; font-size:14px; letter-spacing:1px;
+  }

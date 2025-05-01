@@ -1,0 +1,62 @@
+/* static/store/styles/auth.css */
+
+
+
+/* корневой контейнер форм авторизации / регистрации / профиля */
+.auth-wrapper{
+    /* горизонтальный центр + ограничение ширины */
+    width:100%;
+    max-width:400px;
+    margin:0 auto;
+    padding:32px 20px;
+
+    /* вертикальный центр (100 vh минус высота вашего header-а) */
+    min-height:calc(100vh - 160px);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    font-family:"IBM Plex Sans",sans-serif;
+}
+.auth-heading{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:22px;
+    margin-bottom:25px;
+}
+
+.auth-grid{display:grid;gap:16px;}
+
+.auth-field label{
+    display:block;
+    font-family:"IBM Plex Mono",monospace;
+    margin-bottom:4px;
+    font-size:13px;
+    text-align:left;
+}
+.auth-field input{
+    width:100%;
+    padding:10px;
+    border:1px solid #000;
+    font-family:"IBM Plex Sans",sans-serif;
+    font-size:14px;
+    box-sizing:border-box;
+}
+
+.auth-submit{
+    margin-top:25px;
+    padding:12px 25px;
+    width:100%;
+    background:#e4e4e4;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:15px;
+}
+
+.auth-switch{
+    margin-top:18px;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;
+}
+.auth-switch a{text-decoration:underline;color:#000}

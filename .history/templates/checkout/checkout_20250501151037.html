@@ -1,0 +1,114 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Оформление заказа – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="checkout-container">
+  <h2 class="checkout-heading">Оформление заказа</h2>
+
+  <div class="checkout-grid">
+    <!-- Левая колонка – форма -->
+    <form method="post" action="{% url 'checkout:process' %}" class="checkout-form">
+      {% csrf_token %}
+
+      <!-- 1. Контакты -->
+      <div class="checkout-section">
+        <h3 class="section-title">Контактная информация</h3>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label>Имя*</label>
+            <input name="first_name" required>
+          </div>
+          <div class="field-group">
+            <label>Фамилия</label>
+            <input name="last_name">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>E-mail*</label>
+          <input type="email" name="email" placeholder="you@example.com" required>
+        </div>
+
+        <div class="field-group">
+          <label>Телефон</label>
+          <input type="tel" name="phone" placeholder="+7 999 123-45-67">
+        </div>
+      </div>
+
+      <!-- 2. Доставка -->
+      <div class="checkout-section">
+        <h3 class="section-title">Адрес доставки</h3>
+
+        <div class="field-group">
+          <label>Страна</label>
+          <select name="country">
+            <option value="RU">Россия</option>
+            <option value="BY">Беларусь</option>
+            <option value="KZ">Казахстан</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label>Город*</label>
+            <input name="city" required>
+          </div>
+          <div class="field-group">
+            <label>Индекс</label>
+            <input name="postcode">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Улица, дом, кв.*</label>
+          <input name="address" required>
+        </div>
+      </div>
+
+      <!-- 3. Способ доставки -->
+      <div class="checkout-section">
+        <h3 class="section-title">Способ доставки</h3>
+        <label><input type="radio" name="shipping" value="courier" checked> Курьер (0 ₽)</label><br>
+        <label><input type="radio" name="shipping" value="pickup"> Самовывоз</label>
+      </div>
+
+      <!-- 4. Оплата -->
+      <div class="checkout-section">
+        <h3 class="section-title">Оплата</h3>
+        <label><input type="radio" name="payment" value="card" checked> Банковской картой</label><br>
+        <label><input type="radio" name="payment" value="yoomoney"> YooMoney</label>
+      </div>
+
+      <button class="checkout-submit" type="submit">Подтвердить заказ</button>
+    </form>
+
+    <!-- Правая колонка – резюме -->
+    <aside class="checkout-summary">
+      <h3 class="section-title">Ваш заказ</h3>
+
+      <ul class="summary-items">
+        {% for item in cart %}
+          <li class="summary-item">
+            <span class="item-name">{{ item.product.name }}</span>
+            <span class="item-qty">×{{ item.qty }}</span>
+            <span class="item-total">{{ item.total }} ₽</span>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <div class="summary-totals">
+        <div class="totals-row"><span>Сумма товаров:</span><span>{{ cart_total }} ₽</span></div>
+        <div class="totals-row"><span>Доставка:</span><span>0 ₽</span></div>
+        <div class="totals-row total"><span>Итого:</span><span>{{ cart_total }} ₽</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,149 @@
+{# templates/store/base.html #}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}ABUZADA STORE{% endblock %}</title>
+
+    {# ==== АКТУАЛЬНЫЕ CSS‑ФАЙЛЫ ==== #}
+    <link rel="stylesheet" href="{% static 'store/styles/base.css' %}">
+    <link rel="stylesheet" href="{% static 'store/styles/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'store/styles/components.css' %}">
+    <link rel="stylesheet" href="{% static 'store/styles/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'store/styles/responsive.css' %}">
+
+    {# Google‑шрифты #}
+    <link
+      href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,700|IBM+Plex+Sans:400,600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    {# ---------- Баннер ---------- #}
+    <div class="top-banner">
+      <span>Скоро дроп</span>
+    </div>
+
+    {# ---------- Вся страница ---------- #}
+    <div class="big-container">
+
+      {# ---------- ХЕДЕР ---------- #}
+      <header class="header">
+        <div class="header__left">
+          {# поиск #}
+          <div class="search-block">
+            <div class="search-container">
+              <svg class="search-icon" width="14" height="15" viewBox="0 0 14 15" fill="none">
+                <path d="M10.63 9.096...Z" fill="black"/>
+              </svg>
+              <input type="text" placeholder="Поиск">
+            </div>
+          </div>
+
+          {# ссылки вход/регистрация #}
+          <nav class="auth-nav">
+            <a href="#">Вход</a>
+            <a href="#">Регистрация</a>
+          </nav>
+        </div>
+
+        <div class="header__right">
+          <a href="#" class="cart-link">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M14 4.296...Z" fill="black"/>
+            </svg>
+            Корзина (0)
+          </a>
+          <span class="currency">РУБ</span>
+        </div>
+      </header>
+
+      {# ---------- ОСНОВНОЙ КОНТЕНТ + САЙДБАР ---------- #}
+      <div class="main-layout">
+
+        {# ----- Сайдбар ----- #}
+        <aside class="sidebar">
+          <div class="logo-bar">
+            <a href="{% url 'home' %}" class="logo-link">
+              <h1 class="logo-text">ABUZADA STORE<span class="logo-r">®</span></h1>
+            </a>
+          </div>
+
+          <ul>
+            <li class="dropdown">
+              <a href="{% url 'collections_goat' %}">Коллекция</a><span class="sidebar-arrow"></span>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'collections_goat' %}">G.O.A.T</a></li>
+                <li><a href="{% url 'collections_elite' %}">Elite</a></li>
+                <li><a href="{% url 'collections_legends' %}">Legends</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="{% url 'kids_goat' %}">Детское</a><span class="sidebar-arrow"></span>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'kids_goat' %}">G.O.A.T</a></li>
+                <li><a href="{% url 'kids_elite' %}">Elite</a></li>
+                <li><a href="{% url 'kids_legends' %}">Legends</a></li>
+              </ul>
+            </li>
+
+            <li><a href="{% url 'promotions' %}">Акции</a></li>
+            <li><a href="{% url 'giftcards' %}">Подарочные карты</a></li>
+            <li><a href="{% url 'about' %}">О бренде</a></li>
+          </ul>
+        </aside>
+
+        {# ----- Контент + футер ----- #}
+        <div class="content-wrapper">
+          <main class="main-content">
+            {% block content %}{% endblock %}
+          </main>
+
+          <footer class="footer">
+            <div class="footer-columns">
+              <div class="footer-col">
+                <h3>Для клиентов</h3>
+                <ul>
+                  <li><a href="#">Наши контакты</a></li>
+                  <li><a href="#">Доставка</a></li>
+                  <li><a href="#">Возвраты</a></li>
+                  <li><a href="#">Условия обслуживания</a></li>
+                </ul>
+              </div>
+
+              <div class="footer-col">
+                <h3>Полезные ссылки</h3>
+                <ul>
+                  <li><a href="#">О Abuzada Store</a></li>
+                  <li><a href="https://www.instagram.com/abuzada_store" target="_blank">Instagram</a></li>
+                  <li><a href="https://tiktok.com/@abuzada.store" target="_blank">TikTok</a></li>
+                  <li><a href="https://vk.com/club229374980" target="_blank">VK</a></li>
+                  <li><a href="https://t.me/abuzadastore" target="_blank">Telegram</a></li>
+                </ul>
+              </div>
+
+              <div class="footer-col">
+                <h3>Рассылка</h3>
+                <p>Подпишитесь, чтобы первыми узнавать о новинках.</p>
+                <div class="subscribe-block">
+                  <input type="email" placeholder="Ваш email">
+                  <button class="subscribe-button"><span class="subscribe-text">Подписаться</span></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="footer-bottom">
+              <span>Abuzada Store 2025.</span>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    {# JS #}
+    <script src="{% static 'store/scripts/carousel.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{% extends "store/base.html" %}
+{% block title %}Спасибо за заказ – ABUZADA STORE{% endblock %}
+
+{% block content %}
+  <div style="text-align:center;padding:60px 20px;font-family:'IBM Plex Sans'">
+    <h2>Спасибо за ваш заказ!</h2>
+    {% if order %}
+      <p>Номер вашего заказа: <strong>#{{ order.id }}</strong></p>
+      <p>Мы свяжемся с вами по e-mail: {{ order.email }}</p>
+    {% else %}
+      <p>Информация о заказе не найдена.</p>
+    {% endif %}
+    <p><a href="{% url 'home' %}">Вернуться на главную</a></p>
+  </div>
+{% endblock %}

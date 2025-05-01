@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}ABUZADA STORE{% endblock %}</title>
+
+  <!-- глобальные стили -->
+  <link rel="stylesheet" href="{% static 'store/styles/base.css' %}">
+  <link rel="stylesheet" href="{% static 'store/styles/layout.css' %}">
+  <link rel="stylesheet" href="{% static 'store/styles/components.css' %}">
+  <link rel="stylesheet" href="{% static 'store/styles/cards.css' %}">
+  <link rel="stylesheet" href="{% static 'store/styles/product-page.css' %}">
+  <link rel="stylesheet" href="{% static 'store/styles/responsive.css' %}">
+
+  <!-- шрифты -->
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,700|IBM+Plex+Sans:400,600&display=swap" rel="stylesheet">
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <div class="top-banner"><span>Скоро дроп</span></div>
+
+  <div class="big-container">
+    <!-- ────────── header ────────── -->
+    <header class="header">
+      <div class="header__left">
+        <!-- поиск -->
+        <div class="search-block">
+          <div class="search-container">
+            <svg class="search-icon" width="14" height="15" viewBox="0 0 14 15" fill="none">
+              <path d="M10.63 9.096A5 5 0 1 0 8.926 10.8l3.333 3.333.815-.815.815-.815-3.26-3.407zM6.037 9.689A3.482 3.482 0 1 1 6.037 2.726a3.482 3.482 0 0 1 0 6.963z" fill="black"/>
+            </svg>
+            <input type="text" placeholder="Поиск">
+          </div>
+        </div>
+
+        <!-- авторизация -->
+        <nav class="auth-nav">
+          {% if user.is_authenticated %}
+            <a href="{% url 'accounts:profile' %}">{{ user.username }}</a>
+          {% else %}
+            <a href="{% url 'accounts:login' %}">Вход</a>
+            <a href="{% url 'accounts:signup' %}">Регистрация</a>
+          {% endif %}
+        </nav>
+      </div>
+
+      <div class="header__right">
+        <!-- корзина -->
+        <a href="{% url 'cart:detail' %}" class="cart-link">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M14 4.296H13.037 11.63v-.148C11.63 2.148 10 0.593 8.074 0.593 6.148 0.593 4.444 2.148 4.444 4.148v.222H2.963H2H0.963v1.037 8.148 0.963H1.926H2.889H12.889H13.852H15.037v-.963-8.148-1.037H14zM5.704 4.148C5.704 2.888 6.741 1.852 8 1.852c1.259 0 2.296 1.036 2.296 2.296v.222H5.704v-.222zM13.037 13.481H2.963V6.296h1.407v2H5.63v-2h4.593v2h1.259v-2h1.407v7.185h.148z" fill="black"/>
+          </svg>
+          Корзина ({{ cart_total_qty }})
+        </a>
+        <span class="currency">РУБ</span>
+      </div>
+    </header>
+
+    <!-- ────────── основной макет ────────── -->
+    <div class="main-layout">
+      {% comment %} … сайдбар и остальная верстка без изменений … {% endcomment %}
+      <aside class="sidebar">
+        <!-- … -->
+      </aside>
+
+      <div class="content-wrapper">
+        <main class="main-content">
+          {% block content %}{% endblock %}
+        </main>
+
+        {% include "store/footer.html" %}
+      </div>
+    </div><!-- /main-layout -->
+  </div><!-- /big-container -->
+
+  <script src="{% static 'store/scripts/carousel.js' %}"></script>
+</body>
+</html>

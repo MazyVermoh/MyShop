@@ -1,0 +1,18 @@
+.checkout-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+.checkout-heading { font-family: "IBM Plex Mono", monospace; font-size: 24px; margin-bottom: 30px; text-align: center; }
+.checkout-grid { display: grid; gap: 40px; grid-template-columns: 2fr 1fr; }
+.checkout-section { margin-bottom: 30px; }
+.section-title { font-family: "IBM Plex Mono", monospace; font-size: 18px; margin-bottom: 15px; }
+.field-group { margin-bottom: 15px; }
+.field-group label { display: block; margin-bottom: 5px; font-size: 14px; }
+.field-group input,
+.field-group select { width: 100%; padding: 10px; border: 1px solid #ccc; font-size: 14px; }
+.field-row { display: flex; gap: 20px; }
+.radio-group label { display: block; margin-bottom: 10px; font-size: 14px; cursor: pointer; }
+.checkout-submit { display: block; width: 100%; padding: 15px; background: #000; color: #fff; border: none; font-size: 16px; cursor: pointer; margin-top: 10px; }
+.checkout-summary { background: #f9f9f9; padding: 20px; border-radius: 6px; }
+.summary-items { list-style: none; padding: 0; margin: 0 0 20px; }
+.summary-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+.summary-totals { border-top: 1px solid #ddd; padding-top: 15px; }
+.totals-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.totals-row.total { font-weight: bold; font-size: 16px; }

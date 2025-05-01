@@ -1,0 +1,174 @@
+/* ──────────────────────────────────────────────
+   Components: повторяющиеся UI-элементы
+   ────────────────────────────────────────────── */
+
+/* Поиск и навигация авторизации */
+.search-block {
+    display: flex;
+    align-items: center;
+  }
+  .search-container {
+    display: flex;
+    align-items: center;
+    width: 204px;
+    height: 26px;
+    padding: 0 5px;
+    background-color: transparent;
+    border: none;
+  }
+  .search-icon {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+  }
+  .search-container input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    background-color: transparent;
+  }
+  .auth-nav a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #000;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    line-height: 40px;
+  }
+  
+  /* Корзина и валюта */
+  .cart-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #000;
+    font-family: "IBM Plex Mono", monos-space;
+    font-size: 14px;
+    line-height: 40px;
+  }
+  .cart-link svg {
+    width: 20px;
+    height: 20px;
+    fill: #000;
+    position: relative;
+    top: -2px;
+  }
+  .currency {
+    font-weight: bold;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    line-height: 40px;
+  }
+  
+  /* Выпадающее меню (Sidebar dropdown) */
+  .sidebar-arrow {
+    display: none;
+    margin-left: 5px;
+    width: 10px;
+    height: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1 L5 5 L9 1' stroke='%23000' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    transition: transform 0.3s ease;
+  }
+  .dropdown:hover .sidebar-arrow,
+  .dropdown.active .sidebar-arrow {
+    display: inline-block;
+  }
+  .dropdown.active .sidebar-arrow {
+    transform: rotate(180deg);
+  }
+  .dropdown-menu {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+  }
+  .dropdown.active .dropdown-menu {
+    max-height: 300px;
+    opacity: 1;
+  }
+  .dropdown-menu {
+    margin-left: 20px;
+    margin-top: 5px;
+    list-style: none;
+  }
+  .dropdown-menu li a {
+    display: block;
+    padding: 5px 10px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    color: #000;
+    text-decoration: none;
+  }
+  .dropdown-menu li a:hover {
+    background: #f0f0f0;
+  }
+  
+  /* Кнопки и вкладки */
+  .add-to-cart-button {
+    margin: 15px 0;
+    padding: 12px 25px;
+    background-color: #e4e4e4;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 16px;
+  }
+  .tab-container {
+    margin-top: 20px;
+  }
+  .tab-button {
+    background: none;
+    border: none;
+    font-family: "IBM Plex Mono", monospace;
+    cursor: pointer;
+    margin-right: 10px;
+    padding: 8px 15px;
+    font-size: 16px;
+  }
+  .tab-button.active {
+    border-bottom: 2px solid #000;
+  }
+  
+  /* Custom select (размер) */
+  .custom-select {
+    position: relative;
+    width: auto;
+    min-width: 30px;
+  }
+  .custom-select select {
+    appearance: none;
+    width: 100%;
+    padding: 4px 20px 4px 0;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    border: none !important;
+    background: #fff;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .custom-select::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    top: 50%;
+    right: 4px;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid #000;
+    border-bottom: 1.5px solid #000;
+    transform: translateY(-60%) rotate(45deg);
+  }
+  
+  /* Мелкие утилиты */
+  .section-label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    letter-spacing: normal !important;
+  }

@@ -1,0 +1,81 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}{{ product.name }} – ABUZADA STORE{% endblock %}
+
+{% block content %}
+<div class="product-detail">
+  <!-- КАРТИНКИ (без изменений) -->
+  <div class="product-images">
+    {% if filtered_images %}
+      <img id="mainImage" src="{{ filtered_images.0.image.url }}" alt="{{ product.name }}" class="main-image">
+    {% else %}
+      <img id="mainImage" src="{% static 'store/images/no_image.png' %}" alt="{{ product.name }}" class="main-image">
+    {% endif %}
+    <div class="thumbnail-container">
+      {% for img in filtered_images|slice:"1:" %}
+        <img src="{{ img.image.url }}" class="thumbnail" alt="">
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ИНФО -->
+  <div class="product-info">
+    <h1>{{ product.name }}</h1>
+    <p class="price">{{ product.price }} ₽</p>
+
+    {# ====   ВЫБОР ЦВЕТА   ==== #}
+    <div class="color-section">
+      <span class="section-label">Цвет</span>
+      {% for sw in swatches %}
+        <span class="detail-swatch color-swatch"
+              style="background-color:{{ sw.code }};"
+              {% if sw.id == selected_color %}data-active="1"{% endif %}>
+        </span>
+      {% endfor %}
+    </div>
+
+    {# ====   ВЫБОР РАЗМЕРА   ==== #}
+    <div class="size-section">
+      <span class="section-label">Размер</span>
+      <div class="custom-select">
+        <select name="size" id="sizeSelect">
+          {% for size in product.sizes.all %}
+            <option value="{{ size.name }}">{{ size.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    {# ====   ФОРМА «ДОБАВИТЬ В КОРЗИНУ»   ==== #}
+    <form action="{% url 'cart:add' product.id %}" method="post" style="margin-top:25px">
+      {% csrf_token %}
+      <input type="hidden" name="qty"   value="1">
+      <input type="hidden" name="size"  id="hiddenSize">
+      <button type="submit" class="add-to-cart-button">Добавить в корзину</button>
+    </form>
+
+    <script>
+      // синхронизируем выбранный размер в скрытое поле
+      const sel = document.getElementById("sizeSelect");
+      const hidden = document.getElementById("hiddenSize");
+      if (sel && hidden){ hidden.value = sel.value; sel.onchange = () => hidden.value = sel.value; }
+    </script>
+
+    {# ====   ТАБЫ описание / доп.инфо ==== #}
+    <div class="tab-container">
+      <button class="tab-button active" data-tab="desc">Описание</button>
+      <button class="tab-button"          data-tab="info">Доп. информация</button>
+
+      <div id="desc" class="tab-panel">
+        {{ product.description|default:"Описание отсутствует." }}
+      </div>
+      <div id="info" class="tab-panel hidden">
+        {{ product.additional_info|default:"" }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{# Рекомендации — как было #}
+{% endblock %}

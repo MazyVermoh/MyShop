@@ -1,0 +1,98 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Регистрация – ABUZADA STORE{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <h2 class="auth-heading">Создать аккаунт</h2>
+
+  <!-- вывод общих ошибок формы -->
+  {% if form.non_field_errors %}
+    <ul style="color:red; text-align:left; margin-bottom:15px;">
+      {% for err in form.non_field_errors %}<li>{{ err }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+
+  <form method="post" class="auth-form" novalidate>
+    {% csrf_token %}
+
+    <div class="auth-grid">
+
+      <!-- USERNAME -->
+      <div class="auth-field">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.username.errors }}
+      </div>
+
+      <!-- FIRST / LAST NAME -->
+      <div class="auth-field">
+        {{ form.first_name.label_tag }}
+        {{ form.first_name }}
+        {{ form.first_name.errors }}
+      </div>
+      <div class="auth-field">
+        {{ form.last_name.label_tag }}
+        {{ form.last_name }}
+        {{ form.last_name.errors }}
+      </div>
+
+      <!-- EMAIL / PHONE -->
+      <div class="auth-field">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+        {{ form.email.errors }}
+      </div>
+      <div class="auth-field">
+        {{ form.phone.label_tag }}
+        {{ form.phone }}
+        {{ form.phone.errors }}
+      </div>
+
+      <!-- PASSWORD 1 / 2 -->
+      <div class="auth-field">
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+        {{ form.password1.errors }}
+      </div>
+      <div class="auth-field">
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+      </div>
+    </div>
+
+    <button type="submit" class="auth-submit">Зарегистрироваться</button>
+  </form>
+
+  <p class="auth-switch">
+    Уже есть аккаунт?
+    <a href="{% url 'accounts:login' %}">Войти</a>
+  </p>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .auth-wrapper{
+      max-width:400px;margin:0 auto;padding:40px 20px;text-align:center;
+      font-family:"IBM Plex Sans",sans-serif;
+  }
+  .auth-heading{
+      font-family:"IBM Plex Mono",monospace;font-size:22px;margin-bottom:25px;
+  }
+  .auth-grid{display:grid;gap:16px}
+  .auth-field label{display:block;font-family:"IBM Plex Mono",monospace;
+      margin-bottom:4px;font-size:13px;text-align:left}
+  .auth-field input{width:100%;padding:10px;border:1px solid #000;
+      font-family:"IBM Plex Sans",sans-serif;font-size:14px}
+  .auth-submit{
+      margin-top:25px;padding:12px 25px;width:100%;background:#e4e4e4;
+      border:none;border-radius:6px;cursor:pointer;
+      font-family:"IBM Plex Mono",monospace;font-size:15px
+  }
+  .auth-switch{margin-top:18px;font-family:"IBM Plex Mono",monospace;font-size:13px}
+  .auth-switch a{text-decoration:underline;color:#000}
+</style>
+{% endblock %}

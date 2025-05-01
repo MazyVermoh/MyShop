@@ -1,0 +1,130 @@
+/* 1. html, body на всю высоту */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Отключаем горизонтальную прокрутку */
+}
+
+/* 2. Основной шрифт */
+body {
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  background-color: #fff;
+  color: #000;
+}
+
+/* 3. Фиксированный баннер (Скоро дроп) */
+.top-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-color: #e4e4e4;
+  text-align: center;
+  line-height: 40px;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: bold;
+  font-size: 14px;
+  z-index: 9999;
+}
+
+/* 4. big-container */
+.big-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding-top: 120px; /* Увеличено с 80px */
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 50px;
+}
+
+/* ---------------------------------------
+   Футер
+--------------------------------------- */
+.footer {
+  margin-top: auto;
+  padding-top: 100px;
+}
+.footer-columns {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+.footer-col h3 {
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+.footer-col ul,
+.footer-col p {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  line-height: 22px;
+}
+.footer-col li {
+  margin-bottom: 8px;
+}
+.footer-col a {
+  text-decoration: none;
+  color: #000;
+}
+
+/* Блок подписки */
+.subscribe-block {
+  position: relative;
+  width: 272px;
+  height: 48px;
+}
+.subscribe-block input {
+  position: absolute;
+  left: 0;
+  width: calc(100% - 114.63px);
+  height: 48px;
+  border: none;
+  outline: none;
+  padding: 0 10px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  background-color: #fff;
+  color: #808080;
+  line-height: 48px;
+}
+.subscribe-button {
+  position: absolute;
+  width: 114.63px;
+  height: 48px;
+  right: 0;
+  top: 0;
+  background: #e4e4e4;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+.subscribe-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+/* Нижний футер */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+}

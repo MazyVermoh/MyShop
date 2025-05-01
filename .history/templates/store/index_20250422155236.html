@@ -1,0 +1,61 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Главная – ABUZADA STORE{% endblock %}
+
+{% block content %}
+<section class="products">
+  <h2>Новое</h2>
+
+  <div class="products-grid">
+    {% for product in products %}
+      <div class="product-card"
+           data-product-url="{% url 'product_detail' product.slug %}">
+
+        {# ————— Карусель: первые два filtered_images ————— #}
+        <div class="carousel-images">
+          {% if product.filtered_images %}
+            {% for img in product.filtered_images|slice:":2" %}
+              <img src="{{ img.image.url }}"
+                   alt="{{ product.name }} {{ forloop.counter0|yesno:'back,front' }}">
+            {% endfor %}
+          {% else %}
+            <img src="{% static 'store/images/no_image.png' %}" alt="">
+          {% endif %}
+        </div>
+
+        <div class="arrow arrow-left"></div>
+        <div class="arrow arrow-right"></div>
+        <div class="dots"></div>
+
+        <div class="info-wrapper">
+          <p class="product-title">{{ product.name }}</p>
+          <p class="price">{{ product.price }} ₽</p>
+        </div>
+
+        {# ————— Цветовые swatch’и (фильтрация) ————— #}
+        <div class="color-options">
+          {% for color in product.colors.all %}
+            {% with has_img=color.id in product.image_color_ids %}
+              <span class="color-swatch"
+                    style="background-color: {{ color.code }};"
+                    title="{{ color.name }}"
+                    data-filter-url="?color={{ color.id }}"
+                    {% if not has_img %}data-empty="1"{% endif %}
+                    {% if selected_color == color.id %}data-active="1"{% endif %}>
+              </span>
+            {% endwith %}
+          {% endfor %}
+        </div>
+
+        {# ————— Размеры ————— #}
+        <div class="size-options">
+          {% for size in product.sizes.all %}
+            <span class="size-option">{{ size.name }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

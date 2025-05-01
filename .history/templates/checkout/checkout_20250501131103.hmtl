@@ -1,0 +1,111 @@
+{# templates/checkout/checkout.html #}
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Оформление заказа – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="checkout-container">
+  <h2 class="checkout-heading">Оформление заказа</h2>
+
+  <div class="checkout-grid">
+    <!-- Левая колонка: форма -->
+    <div class="checkout-form">
+      <!-- Контакты -->
+      <div class="checkout-section">
+        <h3 class="section-title">Контактная информация</h3>
+        <form method="post" action="{% url 'checkout:process' %}">
+          {% csrf_token %}
+          <div class="field-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+          </div>
+          <div class="field-group">
+            <label for="phone">Телефон</label>
+            <input type="tel" id="phone" name="phone" placeholder="+7 999 123-45-67">
+          </div>
+      </div>
+
+      <!-- Адрес доставки -->
+      <div class="checkout-section">
+        <h3 class="section-title">Адрес доставки</h3>
+          <div class="field-group">
+            <label for="country">Страна</label>
+            <select id="country" name="country">
+              <option value="RU">Россия</option>
+              <!-- другие опции... -->
+            </select>
+          </div>
+          <div class="field-row">
+            <div class="field-group">
+              <label for="city">Город</label>
+              <input type="text" id="city" name="city" placeholder="Москва">
+            </div>
+            <div class="field-group">
+              <label for="postcode">Индекс</label>
+              <input type="text" id="postcode" name="postcode" placeholder="101000">
+            </div>
+          </div>
+          <div class="field-group">
+            <label for="address1">Улица, дом, кв.</label>
+            <input type="text" id="address1" name="address1" placeholder="ул. Ленина, д. 1, кв. 23">
+          </div>
+      </div>
+
+      <!-- Способ доставки -->
+      <div class="checkout-section">
+        <h3 class="section-title">Способ доставки</h3>
+          <div class="radio-group">
+            <label><input type="radio" name="shipping" value="courier" checked> Курьером (бесплатно)</label>
+            <label><input type="radio" name="shipping" value="pickup"> Самовывоз</label>
+          </div>
+      </div>
+
+      <!-- Оплата -->
+      <div class="checkout-section">
+        <h3 class="section-title">Оплата</h3>
+          <div class="radio-group">
+            <label><input type="radio" name="payment" value="card" checked> Банковской картой</label>
+            <label><input type="radio" name="payment" value="yoomoney"> YooMoney</label>
+            <label><input type="radio" name="payment" value="qiwi"> QIWI</label>
+          </div>
+      </div>
+
+      <button type="submit" class="checkout-submit">Оплатить и подтвердить</button>
+      </form>
+    </div>
+
+    <!-- Правая колонка: обзор заказа -->
+    <aside class="checkout-summary">
+      <h3 class="section-title">Ваш заказ</h3>
+      <ul class="summary-items">
+        {% for item in cart %}
+          <li class="summary-item">
+            <span class="item-name">{{ item.product.name }}</span>
+            <span class="item-qty">×{{ item.qty }}</span>
+            <span class="item-total">{{ item.total }} ₽</span>
+          </li>
+        {% endfor %}
+      </ul>
+      <div class="summary-totals">
+        <div class="totals-row">
+          <span>Сумма товаров:</span>
+          <span>{{ cart_total_price }} ₽</span>
+        </div>
+        <div class="totals-row">
+          <span>Доставка:</span>
+          <span>0 ₽</span>
+        </div>
+        <div class="totals-row total">
+          <span>Итого:</span>
+          <span>{{ cart_total_price }} ₽</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

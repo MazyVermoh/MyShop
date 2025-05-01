@@ -1,0 +1,245 @@
+/* /static/store/styles/cards.css */
+
+/* 7. Контент (товары) */
+.main-content {
+    flex: 1;
+    padding-top: 53px;
+  }
+  .products h2 {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 17px;
+    margin-bottom: 20px;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 40px;
+  }
+  
+  /* Карточка товара */
+  .product-card {
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .carousel-images {
+    display: flex;
+    width: 100%;
+    transition: transform 0.35s ease;
+  }
+  .carousel-images img {
+    min-width: 100%;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .arrow {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 10px 14px;
+    cursor: pointer;
+    user-select: none;
+    z-index: 2;
+  }
+  .product-card:hover .arrow {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .arrow-left {
+    left: 10px;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='14' viewBox='0 0 10 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 1 L2 7 L8 13' stroke='%23e4e4e4' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+  .arrow-right {
+    right: 10px;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='14' viewBox='0 0 10 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 1 L8 7 L2 13' stroke='%23e4e4e4' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+  
+  .product-card {
+    position: relative; /* чтобы .dots позиционировались относительно карточки */
+  }
+  
+  .dots {
+    position: absolute;
+    bottom: 105px;        /* отступ от нижнего края карточки */
+    left: 50%;           /* по центру */
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .product-card:hover .dots {
+    opacity: 1;
+  }
+  .dot {
+    width: 4px;
+    height: 4px;
+    background-color: #bbb;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .dot.active {
+    background-color: #000;
+  }
+  .product-card:hover .dots {
+    opacity: 1;
+  }
+  
+  /* Информация: название и цена */
+  .info-wrapper {
+    position: relative;
+    height: 50px;
+    margin-top: 10px;
+  }
+  .product-title,
+  .price {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    transition: opacity 0.2s;
+  }
+  .product-title {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    top: -30px;
+  }
+  .price {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    top: -10px;
+  }
+  .product-card:hover .product-title,
+  .product-card:hover .price {
+    opacity: 0;
+  }
+  
+  /* Миниатюра back‑фото */
+  .thumbnail-raised {
+    position: relative;
+    top: -40px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .thumbnail-raised:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Вкладки (Описание / Доп. информация) */
+  .tab-container {
+    margin-top: 20px;
+  }
+  .tab-button {
+    background: none;
+    border: none;
+    font-family: "IBM Plex Mono", monospace;
+    cursor: pointer;
+    margin-right: 10px;
+    padding: 8px 15px;
+    font-size: 16px;
+  }
+  .tab-button.active {
+    border-bottom: 2px solid #000;
+  }
+  .tab-content {
+    margin-top: 10px;
+  }
+  .tab-panel.hidden {
+    display: none;
+  }
+  
+  /* Рекомендуемые товары */
+  .recommended-products {
+    margin-top: 30px;
+  }
+  .recommended-products h2 {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 17px;
+    margin-bottom: 20px;
+  }
+  .recommended-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 80px;
+  }
+  .recommended-item {
+    text-align: center;
+  }
+  .recommended-item img {
+    width: 320px;
+    height: auto;
+    object-fit: contain;
+  }
+  .recommended-item .rec-name {
+    margin: 18px 0 6px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+  }
+  .recommended-item .rec-price {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  /* Скрытые элементы на главной */
+  .product-card .color-options,
+  .product-card .size-options {
+    display: none;
+    position: absolute;
+  }
+  .product-card .color-options {
+    top: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 12px;
+  }
+  .product-card .size-options {
+    width: 100%;
+    top:425px;
+    text-align: center;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13.5px;
+  }
+  .product-card:hover .color-options {
+    display: flex;
+    justify-content: center;
+  }
+  .product-card:hover .size-options {
+    display: block;
+  }
+  
+  /* Цветовые точки и размеры */
+  .product-card .color-swatch {
+    width: 13px !important;
+    height: 13px !important;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease !important;
+  }
+  .product-card .color-swatch:hover {
+    transform: scale(1.1) !important;
+  }
+  .product-card .size-options span {
+    cursor: pointer;
+    margin: 2px;
+  }
+  .product-card .size-options span:hover {
+    text-decoration: underline;
+  }
+  
+  /* Giftcard-specific */
+  .product-card.giftcard:hover .product-title,
+  .product-card.giftcard:hover .price {
+    opacity: 1 !important;
+  }
