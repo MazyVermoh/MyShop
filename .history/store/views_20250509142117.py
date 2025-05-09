@@ -4,10 +4,9 @@ from django.db.models import Prefetch
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from .forms import SubscribeForm
-from .models import Subscriber
+
 from .models import Product, ProductImage, Color
-from django.core.mail import send_mail
-from django.conf import settings
+
 
 # ---------------------------------------------------------------------
 # Главная страница
@@ -187,35 +186,9 @@ def product_first_image(request, prod_id, color_id):
 
 @require_POST
 def subscribe(request):
-    """
-    AJAX‑endpoint: принимает email, сохраняет в БД, шлёт welcome‑письмо,
-    отдаёт компактный JSON. Браузер остаётся на той же странице.
-    """
+    """Принимает e‑mail по AJAX и возвращает JSON."""
     form = SubscribeForm(request.POST)
-    if not form.is_valid():
-        return JsonResponse(
-            {"status": "error", "errors": form.errors},
-            status=400,
-        )
-
-    email = form.cleaned_data["email"]
-    sub, created = Subscriber.objects.get_or_create(
-        email=email,
-        defaults={"confirmed": True},   # если нужен double‑opt‑in — уберите confirmed
-    )
-
-    # welcome‑письмо шлём только тем, кто реально новый
-    if created:
-        send_mail(
-            subject="Спасибо за подписку на ABUZADA STORE!",
-            message=(
-                "Теперь вы будете первыми узнавать о новинках "
-                "и получать персональные предложения.\n\n"
-                "Если письмо попало в спам — добавьте нас в контакты."
-            ),
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[email],
-            fail_silently=True,  # чтобы подписка не падала, даже если SMTP недоступен
-        )
-
-    return JsonResponse({"status": "ok"})
+    if form.is_valid():
+        obj, _ = form.save_or_update()  # get_or_create аналог
+        return JsonResponse({"status": "ok"})
+    return JsonResponse({"status": "error", "errors": form.errors.get_json_data()}, status=400)
