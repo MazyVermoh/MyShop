@@ -1,0 +1,144 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Оформление заказа – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="checkout-page">
+  <h2 class="checkout-heading">Оформление заказа</h2>
+
+  <div class="checkout-layout">
+    <!-- Левая колонка: форма оформления -->
+    <form method="post" action="{% url 'checkout:process' %}" class="checkout-form">
+      {% csrf_token %}
+
+      <!-- Промокод -->
+      <div class="checkout-section promo-section">
+        <label for="id_promo">Промокод</label>
+        <div class="promo-row">
+          {{ promo_form.code }}
+          <button type="submit" name="apply_promo" class="button promo-button">Применить</button>
+        </div>
+        {% if promo_form.code.errors %}
+          <div class="promo-error">{{ promo_form.code.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Контактная информация -->
+      <div class="checkout-section">
+        <h3>Контактная информация</h3>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="id_first_name">Имя&nbsp;*</label>
+            <input id="id_first_name" name="first_name" required>
+          </div>
+          <div class="field-group">
+            <label for="id_last_name">Фамилия</label>
+            <input id="id_last_name" name="last_name">
+          </div>
+        </div>
+        <div class="field-group full-width">
+          <label for="id_email">E-mail&nbsp;*</label>
+          <input type="email" id="id_email" name="email" required>
+        </div>
+        <div class="field-group full-width">
+          <label for="id_phone">Телефон</label>
+          <input type="tel" id="id_phone" name="phone">
+        </div>
+      </div>
+
+      <!-- Адрес доставки -->
+      <div class="checkout-section">
+        <h3>Адрес доставки</h3>
+        <div class="field-group full-width">
+          <label for="id_country">Страна</label>
+          <select id="id_country" name="country">
+            <option value="RU">Россия</option>
+            <option value="BY">Беларусь</option>
+            <option value="KZ">Казахстан</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="id_city">Город&nbsp;*</label>
+            <input id="id_city" name="city" required>
+          </div>
+          <div class="field-group">
+            <label for="id_postcode">Индекс</label>
+            <input id="id_postcode" name="postcode">
+          </div>
+        </div>
+        <div class="field-group full-width">
+          <label for="id_address">Улица, дом, кв.&nbsp;*</label>
+          <input id="id_address" name="address" required>
+        </div>
+      </div>
+
+      <!-- Способ доставки и оплаты -->
+      <div class="checkout-section two-columns">
+        <div class="field-group">
+          <h3>Доставка</h3>
+          <label><input type="radio" name="shipping" value="courier" checked> Курьер (0&nbsp;₽)</label>
+          <label><input type="radio" name="shipping" value="pickup"> Самовывоз</label>
+        </div>
+        <div class="field-group">
+          <h3>Оплата</h3>
+          <label><input type="radio" name="payment" value="card" checked> Банковской картой</label>
+          <label><input type="radio" name="payment" value="yoomoney"> YooMoney</label>
+        </div>
+      </div>
+
+      {# Скрытые поля #}
+      <input type="hidden" name="promo_code" value="{{ promo_code }}">
+      <input type="hidden" name="discount"   value="{{ discount|floatformat:2 }}">
+
+      <button type="submit" class="button submit-button">Подтвердить заказ</button>
+    </form>
+
+    <!-- Правая колонка: резюме заказа -->
+    <aside class="checkout-summary">
+      <h3>Ваш заказ</h3>
+      <ul class="summary-items">
+        {% for item in cart %}
+          <li class="summary-item">
+            <span class="item-info">
+              {{ item.product.name }}<br>
+              <small>×{{ item.qty }} • {{ item.product.price }} ₽</small>
+            </span>
+            <span class="item-total">{{ item.total }} ₽</span>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <div class="summary-totals">
+        <div class="totals-row">
+          <span>Промежуточная сумма:</span>
+          <span>{{ cart_total }} ₽</span>
+        </div>
+        {% if discount %}
+        <div class="totals-row">
+          <span>Скидка:</span>
+          <span class="discount">-{{ discount }} ₽</span>
+        </div>
+        <div class="totals-row">
+          <span><strong>Итого после скидки:</strong></span>
+          <span><strong>{{ final_total }} ₽</strong></span>
+        </div>
+        {% endif %}
+        <div class="totals-row">
+          <span>Доставка:</span>
+          <span>0 ₽</span>
+        </div>
+        <div class="totals-row total">
+          <span>Итого к оплате:</span>
+          <span>{{ discount|yesno:"{{ final_total }},{{ cart_total }}" }} ₽</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

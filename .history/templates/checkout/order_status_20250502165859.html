@@ -1,0 +1,41 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Статус заказа №{{ order.id }} – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="order-status-container">
+  <h2>Статус заказа №{{ order.id }}</h2>
+  <p>Текущий статус: <strong>{{ order.get_status_display }}</strong></p>
+
+  <h3>Состав вашего заказа</h3>
+  <ul class="summary-items">
+    {% for item in order.items.all %}
+      <li>
+        {{ item.product.name }} &times;{{ item.qty }} — {{ item.total }} ₽
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="summary-totals">
+    <div class="totals-row">
+      <span>Сумма товаров:</span>
+      <span>{{ order.items.all|sum:"total" }} ₽</span>
+    </div>
+    {% if order.discount %}
+      <div class="totals-row">
+        <span>Скидка:</span>
+        <span>-{{ order.discount }} ₽</span>
+      </div>
+    {% endif %}
+    <div class="totals-row total">
+      <span>Итого к оплате:</span>
+      <span>{{ order.total }} ₽</span>
+    </div>
+  </div>
+</section>
+{% endblock %}

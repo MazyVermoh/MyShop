@@ -1,0 +1,13 @@
+<html>
+  <body>
+    <h2>Ваш заказ №{{ order.id }} принят</h2>
+    <ul>
+      {% for item in order.items.all %}
+        <li>{{ item.product.name }} ×{{ item.qty }} — {{ item.price }} ₽</li>
+      {% endfor %}
+    </ul>
+    <p><strong>Итого:</strong> {{ order.total }} ₽</p>
+    <p><a href="{{ status_url }}">Перейти к статусу заказа</a></p>
+    <p>Спасибо за покупку!</p>
+  </body>
+</html>

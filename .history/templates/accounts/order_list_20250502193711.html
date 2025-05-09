@@ -1,0 +1,61 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Заказ №{{ order.id }} – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="order-detail-container">
+  <h2>Заказ №{{ order.id }}</h2>
+  <p>Дата создания: {{ order.created|date:"SHORT_DATETIME_FORMAT" }}</p>
+  <p>Текущий статус: <strong>{{ order.get_status_display }}</strong></p>
+  <hr>
+
+  <h3>Состав заказа</h3>
+  <ul class="summary-items">
+    {% for item in order.items.all %}
+      <li class="summary-item">
+        <span class="item-name">{{ item.product.name }}</span>
+        <span class="item-qty">×{{ item.qty }}</span>
+        <span class="item-total">{{ item.total }} ₽</span>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="summary-totals">
+    <div class="totals-row">
+      <span>Сумма товаров:</span>
+      <span>{{ order.items.all|unordered_list }}{# если не нужна агрегация, замените на cart_total из view #}</span>
+    </div>
+    {% if order.discount %}
+      <div class="totals-row">
+        <span>Скидка:</span>
+        <span>-{{ order.discount }} ₽</span>
+      </div>
+    {% endif %}
+    <div class="totals-row">
+      <span>Доставка:</span>
+      <span>
+        {% if order.shipping_method == 'courier' %}Курьер (0 ₽){% else %}Самовывоз{% endif %}
+      </span>
+    </div>
+    <div class="totals-row">
+      <span>Оплата:</span>
+      <span>
+        {% if order.payment_method == 'card' %}Банковской картой{% else %}YooMoney{% endif %}
+      </span>
+    </div>
+    <div class="totals-row total">
+      <span>Итого к оплате:</span>
+      <span>{{ order.total }} ₽</span>
+    </div>
+  </div>
+
+  <p style="margin-top: 20px;">
+    <a href="{% url 'accounts:order_list' %}">&larr; Назад к моим заказам</a>
+  </p>
+</section>
+{% endblock %}

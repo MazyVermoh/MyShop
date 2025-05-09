@@ -1,0 +1,89 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Оформление заказа – ABUZADA STORE{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="checkout-container">
+  <h2 class="checkout-heading">Оформление заказа</h2>
+
+  <div class="checkout-grid">
+    {# ───────────────────────────────
+       ЛЕВАЯ КОЛОНКА  –  ФОРМА
+       ─────────────────────────────── #}
+    <form method="post"
+          action="{% url 'checkout:process' %}"
+          class="checkout-form"
+          autocomplete="off">
+      {% csrf_token %}
+
+      {# 1. Контакты #} … **(оставляем без изменений)** …
+
+      {# 2. Адрес #}
+      <div class="checkout-section">
+        <h3 class="section-title">Адрес доставки</h3>
+
+        <div class="field-group">
+          <label for="id_country">Страна</label>
+          <select id="id_country" name="country">
+            <option value="RU">Россия</option>
+            <option value="BY">Беларусь</option>
+            <option value="KZ">Казахстан</option>
+          </select>
+        </div>
+
+        {# 👉  ТОЛЬКО ГОРОД — автоподсказка DaData #}
+        <div class="field-group">
+          <label for="id_city">Город *</label>
+          <input id="id_city"
+                 name="city"
+                 required
+                 placeholder="Начните вводить…"
+                 data-dadata="city">
+        </div>
+
+        {# улица + дом — как было #}
+        <div class="field-group">
+          <label for="id_address">Улица, дом, кв. *</label>
+          <input id="id_address" name="address" required>
+        </div>
+
+        {# Скрыто: сюда положим индекс, который вернёт DaData #}
+        <input type="hidden" id="hidden_postcode" name="postcode">
+      </div>
+
+      {# 3. Способ доставки, 4. Оплата — без изменений … #}
+
+      …
+    </form>
+
+    {# ПРАВАЯ КОЛОНКА (резюме) — без изменений #}
+  </div>
+</section>
+
+{# ─────────  DaData Suggestions  ───────── #}
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@latest/dist/js/jquery.suggestions.min.js"></script>
+<link  href="https://cdn.jsdelivr.net/npm/suggestions-jquery@latest/dist/css/suggestions.min.css" rel="stylesheet"/>
+
+<script>
+  $(function () {
+    $("#id_city").suggestions({
+      token:     "ВАШ_DADATA_API_KEY",      // ← вставьте реальный ключ
+      type:      "ADDRESS",
+      hint:      false,
+      bounds:    "city",                    // только города/нас.пункты
+      autoSelectFirst: true,
+      onSelect:  function (s) {
+        // При выборе кладём индекс в скрытое поле,
+        // а город пишем нормализованным
+        $("#id_city").val(s.data.city_with_type);
+        $("#hidden_postcode").val(s.data.postal_code);
+      }
+    });
+  });
+</script>
+{% endblock %}

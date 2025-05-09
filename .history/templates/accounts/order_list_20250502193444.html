@@ -1,0 +1,19 @@
+{% extends "store/base.html" %}
+{% block content %}
+<h2>Мои заказы</h2>
+<ul>
+  {% for order in orders %}
+    <li>
+      <a href="{% url 'accounts:order_detail' order.pk %}">
+        Заказ №{{ order.id }} от {{ order.created|date:"SHORT_DATE_FORMAT" }}
+        ({{ order.get_status_display }})
+      </a>
+    </li>
+  {% empty %}
+    <li>У вас нет заказов.</li>
+  {% endfor %}
+</ul>
+{% if is_paginated %}
+  {% include "pagination.html" %}
+{% endif %}
+{% endblock %}

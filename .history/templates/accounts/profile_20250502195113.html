@@ -1,0 +1,46 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Профиль – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <h2 class="auth-heading">Мой профиль</h2>
+
+  <p style="font-family:'IBM Plex Mono',monospace">
+    Имя: {{ request.user.first_name }} {{ request.user.last_name }}<br>
+    E-mail: {{ request.user.email|default:"—" }}<br>
+    Телефон: {{ request.user.phone|default:"—" }}
+  </p>
+
+  <hr style="margin:20px 0;">
+
+  <p>Всего заказов: <strong>{{ orders_count }}</strong></p>
+  {% if last_order %}
+    <p>
+      Последний заказ №{{ last_order.id }}
+      от {{ last_order.created|date:"SHORT_DATE_FORMAT" }} —
+      <a href="{% url 'accounts:order_detail' last_order.pk %}">
+        Подробнее
+      </a>
+    </p>
+  {% else %}
+    <p>Пока нет ни одного заказа.</p>
+  {% endif %}
+
+  <p style="margin-top:15px;">
+    <a href="{% url 'accounts:order_list' %}" class="auth-submit">
+      Моя история заказов
+    </a>
+  </p>
+
+  <form method="post" action="{% url 'accounts:logout' %}" style="margin-top:30px">
+    {% csrf_token %}
+    <button type="submit" class="auth-submit">Выйти из аккаунта</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Заказ №{{ order.id }} – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="order-detail-container">
+  <h2>Заказ №{{ order.id }}</h2>
+  <p>Дата создания: {{ order.created|date:"SHORT_DATETIME_FORMAT" }}</p>
+  <p>Текущий статус: <strong>{{ order.get_status_display }}</strong></p>
+  <hr>
+
+  <h3 class="section-title">Состав заказа</h3>
+  <ul class="summary-items">
+    {% for item in items %}
+      <li class="summary-item">
+        <span class="item-name">{{ item.product.name }}</span>
+        <span class="item-qty">×{{ item.qty }}</span>
+        <span class="item-total">{{ item.total|floatformat:2 }} ₽</span>
+      </li>
+    {% empty %}
+      <li class="summary-item">— пусто —</li>
+    {% endfor %}
+  </ul>
+
+  <div class="summary-totals">
+    <div class="totals-row">
+      <span>Сумма товаров:</span>
+      <span>{{ items_total|floatformat:2 }} ₽</span>
+    </div>
+
+    {% if order.discount %}
+      <div class="totals-row">
+        <span>Скидка:</span>
+        <span>-{{ order.discount|floatformat:2 }} ₽</span>
+      </div>
+    {% endif %}
+
+    <div class="totals-row">
+      <span>Доставка:</span>
+      <span>
+        {% if order.shipping_method == "courier" %}
+          Курьер (0 ₽)
+        {% else %}
+          Самовывоз
+        {% endif %}
+      </span>
+    </div>
+
+    <div class="totals-row">
+      <span>Оплата:</span>
+      <span>
+        {% if order.payment_method == "card" %}
+          Банковской картой
+        {% else %}
+          YooMoney
+        {% endif %}
+      </span>
+    </div>
+
+    <div class="totals-row total">
+      <span>Итого к оплате:</span>
+      <span>{{ order.total|floatformat:2 }} ₽</span>
+    </div>
+  </div>
+
+  <p style="margin-top:20px;">
+    <a href="{% url 'accounts:order_list' %}">← Назад к моим заказам</a>
+  </p>
+</section>
+{% endblock %}

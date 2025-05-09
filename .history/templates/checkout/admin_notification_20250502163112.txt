@@ -1,0 +1,5 @@
+Новый заказ №{{ order.id }}!
+Клиент: {{ order.first_name }} {{ order.last_name }} ({{ order.email }})
+
+Сумма: {{ order.total }} ₽
+Перейти в админку: {{ site_url }}/admin/store/order/{{ order.id }}/change/

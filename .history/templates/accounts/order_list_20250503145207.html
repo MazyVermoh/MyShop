@@ -1,0 +1,63 @@
+{#  templates/accounts/order_list.html  #}
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Моя история заказов – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="order-list-container">
+
+  <h2 class="section-title" style="margin-bottom:18px;">Моя история заказов</h2>
+
+  {% if orders %}
+    <table class="order-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;">№</th>
+          <th>Дата</th>
+          <th>Статус</th>
+          <th style="text-align:right;">Сумма ₽</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr>
+            <td>#{{ order.id }}</td>
+            <td>{{ order.created|date:"d.m.Y H:i" }}</td>
+            <td>{{ order.get_status_display }}</td>
+            <td style="text-align:right;">{{ order.total|floatformat:2 }}</td>
+            <td>
+              <a href="{% url 'accounts:order_detail' order.pk %}">подробнее →</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {# пагинация #}
+    {% if is_paginated %}
+      <div class="paginator">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}">← назад</a>
+        {% endif %}
+        <span>{{ page_obj.number }} / {{ paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">вперёд →</a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  {% else %}
+    <p>У вас пока нет заказов.</p>
+  {% endif %}
+
+  <p style="margin-top:22px;">
+    <a href="{% url 'profile' %}">← Вернуться в профиль</a>
+  </p>
+</section>
+{% endblock %}

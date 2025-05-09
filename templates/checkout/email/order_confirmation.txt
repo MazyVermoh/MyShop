@@ -1,0 +1,12 @@
+Спасибо за ваш заказ №{{ order.id }}!
+
+Состав заказа:
+{% for item in order.items.all %}
+- {{ item.product.name }} ×{{ item.qty }} — {{ item.price }} ₽
+{% endfor %}
+
+Сумма к оплате: {{ order.total }} ₽
+
+Отследить статус: {{ status_url }}
+
+Спасибо, что выбрали нас!

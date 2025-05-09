@@ -1,0 +1,46 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Моя история заказов – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="order-list-container">
+  <h2>Мои заказы</h2>
+
+  {% if orders %}
+    <ul class="orders-list">
+      {% for order in orders %}
+        <li>
+          <a href="{% url 'accounts:order_detail' order.pk %}">
+            Заказ №{{ order.id }}
+            от {{ order.created|date:"SHORT_DATE_FORMAT" }}
+            ({{ order.get_status_display }})
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% if is_paginated %}
+      <div class="pager">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}">← назад</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">вперёд →</a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  {% else %}
+    <p>У вас пока нет заказов.</p>
+  {% endif %}
+
+  <p style="margin-top:22px;">
+    <a href="{% url 'accounts:profile' %}">← Вернуться в профиль</a>
+  </p>
+</section>
+{% endblock %}
