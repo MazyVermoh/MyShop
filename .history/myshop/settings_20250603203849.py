@@ -1,37 +1,36 @@
-"""
-Django settings for myshop project.
-Параметризованы через .env (django‑environ).
-Файл рассчитан на интеграцию с T‑Bank.
-"""
-
 from pathlib import Path
 import environ
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Paths & env
+# Paths & .env initialisation
 # ──────────────────────────────────────────────────────────────────────────────
 BASE_DIR: Path = Path(__file__).resolve().parent.parent
 
+# Initialise environ and read .env located at project root
+# If the file is missing, default values below are used.
 env = environ.Env(
-    DJANGO_DEBUG=(bool, False),
-    DJANGO_SECRET_KEY=(str, "please_change_me"),
+    # casting, default value
+    DEBUG=(bool, False),
+    SECRET_KEY=(str, "please_change_me"),
 )
-# silent=True → CI не падает без .env
-env.read_env(BASE_DIR / ".env", overwrite=False)
+
+# read_env silently ignores absent file → convenient for CI
+env.read_env(BASE_DIR / ".env")
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Security
 # ──────────────────────────────────────────────────────────────────────────────
-SECRET_KEY: str = env.str("DJANGO_SECRET_KEY")
-DEBUG: bool = env.bool("DJANGO_DEBUG")
+SECRET_KEY: str = env.str("SECRET_KEY")
+DEBUG: bool = env.bool("DEBUG")
 
+# Allow all hosts in DEBUG; otherwise read from env list
 if DEBUG:
     ALLOWED_HOSTS: list[str] = ["*"]
 else:
-    ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["example.com"])
+    ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["example.com"])  # noqa: RUF015
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Installed apps
+# Applications
 # ──────────────────────────────────────────────────────────────────────────────
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -42,11 +41,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     # local apps
-    "accounts",
-    "cart",
-    "store",
-    "checkout",
-    "payments",  # NEW
+    "accounts",  # кастомный пользователь
+    "cart",      # сессия‑корзина
+    "store",     # каталог
+    "checkout",  # оформление заказа
+    "payments",  # Новый слой: интеграция с платёжными шлюзами
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -90,12 +89,12 @@ TEMPLATES = [
 # ──────────────────────────────────────────────────────────────────────────────
 DATABASES = {
     "default": {
-        "ENGINE": env.str("DB_ENGINE", "django.db.backends.postgresql"),
-        "NAME": env.str("DB_NAME", "myshopdb"),
-        "USER": env.str("DB_USER", "myshop"),
-        "PASSWORD": env.str("DB_PASSWORD", "password"),
-        "HOST": env.str("DB_HOST", "localhost"),
-        "PORT": env.int("DB_PORT", 5432),
+        "ENGINE": env.str("DB_ENGINE", default="django.db.backends.postgresql"),
+        "NAME": env.str("DB_NAME", default="myshopdb"),
+        "USER": env.str("DB_USER", default="myshop"),
+        "PASSWORD": env.str("DB_PASSWORD", default="password"),
+        "HOST": env.str("DB_HOST", default="localhost"),
+        "PORT": env.str("DB_PORT", default="5432"),
     }
 }
 
@@ -110,15 +109,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
-# i18n / tz
+# Internationalisation
 # ──────────────────────────────────────────────────────────────────────────────
 LANGUAGE_CODE = "en-us"
-TIME_ZONE = env.str("TIME_ZONE", "UTC")
+TIME_ZONE = env.str("TIME_ZONE", default="UTC")
 USE_I18N = True
 USE_TZ = True
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Static / media
+# Static & Media
 # ──────────────────────────────────────────────────────────────────────────────
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
@@ -128,48 +127,63 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Auth
+# Custom user model
 # ──────────────────────────────────────────────────────────────────────────────
 AUTH_USER_MODEL = "accounts.User"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Login / Logout redirects
+# ──────────────────────────────────────────────────────────────────────────────
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "home"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Cart session key
+# ──────────────────────────────────────────────────────────────────────────────
+CART_SESSION_KEY = "cart"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Email (SMTP)
+# ──────────────────────────────────────────────────────────────────────────────
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = env.str("EMAIL_HOST", default="smtp.mail.ru")
+EMAIL_PORT = env.int("EMAIL_PORT", default=587)
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="admin@example.com")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="change_me")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# URL сайта (для формирования полных ссылок)
+SITE_URL = env.str("SITE_URL", default="http://localhost:8000")
+
+# Админские адреса для системных уведомлений
+ADMINS = [("Администратор", env.str("ADMIN_EMAIL", default="admin@example.com"))]
+
+# ──────────────────────────────────────────────────────────────────────────────
+# DaData
+# ──────────────────────────────────────────────────────────────────────────────
+DADATA_API_KEY = env.str("DADATA_API_KEY", default="")
+DADATA_SECRET = env.str("DADATA_SECRET", default="")
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Платежные шлюзы
+# ──────────────────────────────────────────────────────────────────────────────
+
+# T‑Bank (T‑Касса)
+TBANK_TERMINAL_KEY = env.str("TBANK_TERMINAL_KEY", default="")
+TBANK_PASSWORD = env.str("TBANK_PASSWORD", default="")
+# "demo" | "prod"
+TBANK_MODE = env.str("TBANK_MODE", default="demo")
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Authentication backends
+# ──────────────────────────────────────────────────────────────────────────────
 AUTHENTICATION_BACKENDS = [
     "accounts.backends.EmailPhoneUsernameBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Misc consts
-# ──────────────────────────────────────────────────────────────────────────────
-CART_SESSION_KEY = "cart"
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Email
-# ──────────────────────────────────────────────────────────────────────────────
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = env.str("EMAIL_HOST", "smtp.mail.ru")
-EMAIL_PORT = env.int("EMAIL_PORT", 587)
-EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", True)
-EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", "admin@example.com")
-EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", "change_me")
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-SITE_URL = env.str("SITE_URL", "http://localhost:8000")
-ADMINS = [("Администратор", env.str("ADMIN_EMAIL", "admin@example.com"))]
-
-# ──────────────────────────────────────────────────────────────────────────────
-# DaData
-# ──────────────────────────────────────────────────────────────────────────────
-DADATA_API_KEY = env.str("DADATA_API_KEY", "")
-DADATA_SECRET = env.str("DADATA_SECRET", "")
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Payment gateways
-# ──────────────────────────────────────────────────────────────────────────────
-TBANK_TERMINAL_KEY = env.str("TBANK_TERMINAL_KEY", "")
-TBANK_PASSWORD = env.str("TBANK_PASSWORD", "")
-TBANK_MODE = env.str("TBANK_MODE", "demo")  # demo | prod
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Django
+# Default primary key field type
 # ──────────────────────────────────────────────────────────────────────────────
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
