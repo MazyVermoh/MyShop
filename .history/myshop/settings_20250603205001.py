@@ -173,7 +173,3 @@ TBANK_MODE = env.str("TBANK_MODE", "demo")  # demo | prod
 # Django
 # ──────────────────────────────────────────────────────────────────────────────
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-# --- legacy YooKassa stub (удалим после полной зачистки) -------------
-YOOKASSA_SHOP_ID = env.str("YOOKASSA_SHOP_ID", default="")
-YOOKASSA_SECRET_KEY = env.str("YOOKASSA_SECRET_KEY", default="")
