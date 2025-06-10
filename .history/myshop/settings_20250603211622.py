@@ -1,7 +1,7 @@
 """
 Django settings for myshop project.
-Параметризованы через .env (django-environ).
-Файл рассчитан на интеграцию с T-Bank.
+Параметризованы через .env (django‑environ).
+Файл рассчитан на интеграцию с T‑Bank.
 """
 
 from pathlib import Path
@@ -12,16 +12,9 @@ import environ
 # ──────────────────────────────────────────────────────────────────────────────
 BASE_DIR: Path = Path(__file__).resolve().parent.parent
 
-#
-# 👉 Главное изменение
-#   • теперь переменные называются так же, как в вашем .env:
-#       SECRET_KEY=...
-#       DEBUG=True / False
-#   • никаких префиксов DJANGO_* больше не нужно.
-#
 env = environ.Env(
-    DEBUG=(bool, False),
-    SECRET_KEY=(str, "please_change_me"),
+    DJANGO_DEBUG=(bool, False),
+    DJANGO_SECRET_KEY=(str, "please_change_me"),
 )
 # silent=True → CI не падает без .env
 env.read_env(BASE_DIR / ".env", overwrite=False)
@@ -29,8 +22,8 @@ env.read_env(BASE_DIR / ".env", overwrite=False)
 # ──────────────────────────────────────────────────────────────────────────────
 # Security
 # ──────────────────────────────────────────────────────────────────────────────
-SECRET_KEY: str = env.str("SECRET_KEY")
-DEBUG: bool = env.bool("DEBUG")
+SECRET_KEY: str = env.str("DJANGO_SECRET_KEY")
+DEBUG: bool = env.bool("DJANGO_DEBUG")
 
 if DEBUG:
     ALLOWED_HOSTS: list[str] = ["*"]
@@ -161,7 +154,7 @@ EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", "admin@example.com")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", "change_me")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SITE_URL = env.str("SITE_URL", "http://localhost:8000")
-ADMINS = [("Администратор", env.str("ADMIN_EMAIL", "Abuzada.store@mail.ru"))]
+ADMINS = [("Администратор", env.str("ADMIN_EMAIL", "admin@example.com"))]
 
 # ──────────────────────────────────────────────────────────────────────────────
 # DaData
@@ -181,7 +174,4 @@ TBANK_MODE = env.str("TBANK_MODE", "demo")  # demo | prod
 # ──────────────────────────────────────────────────────────────────────────────
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Local-only overrides (работают, только если DEBUG=True и файл settings_local.py рядом)
-# ──────────────────────────────────────────────────────────────────────────────
+# --- legacy YooKassa stub (удалим после полной зачистки) -------------

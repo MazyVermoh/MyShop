@@ -161,7 +161,7 @@ EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", "admin@example.com")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", "change_me")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SITE_URL = env.str("SITE_URL", "http://localhost:8000")
-ADMINS = [("Администратор", env.str("ADMIN_EMAIL", "Abuzada.store@mail.ru"))]
+ADMINS = [("Администратор", env.str("ADMIN_EMAIL", "admin@example.com"))]
 
 # ──────────────────────────────────────────────────────────────────────────────
 # DaData
@@ -185,3 +185,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ──────────────────────────────────────────────────────────────────────────────
 # Local-only overrides (работают, только если DEBUG=True и файл settings_local.py рядом)
 # ──────────────────────────────────────────────────────────────────────────────
+try:
+    from .settings_local import *  # noqa
+except ImportError:
+    pass

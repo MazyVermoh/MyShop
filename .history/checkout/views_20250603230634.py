@@ -104,7 +104,7 @@ def process_order(request: HttpRequest) -> HttpResponse:
 
     # ─── если выбрана оплата картой → редирект на платежку ────────────────────
     if payment_method == "card":
-        # Перенаправляем на старт T-Bank: payments:tbank_start
+        # payments:tbank_start → payments/urls.py
         return redirect("payments:tbank_start", order_id=order.id)
 
     # ─── «Оплата при получении» или иное ──────────────────────────────────────

@@ -19,7 +19,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from store.models import Order
 from .models import TBankPayment
-
+from .tbank import tbank_gateway as tbank 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1) старт оплаты по кнопке «Оплатить»

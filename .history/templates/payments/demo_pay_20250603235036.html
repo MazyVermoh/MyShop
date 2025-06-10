@@ -1,0 +1,27 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Оплата заказа #{{ order.id }}{% endblock %}
+
+{% block content %}
+<div style="max-width:460px;margin:40px auto;font-family:'IBM Plex Sans',sans-serif;text-align:center">
+  <h2>Оплата заказа №{{ order.id }}</h2>
+
+  <p style="font-size:1.1rem">
+    Сумма к оплате: <strong>{{ to_pay }}&nbsp;₽</strong>
+  </p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" style="
+        background:#111;color:#fff;border:none;padding:12px 32px;
+        font-size:1rem;border-radius:6px;cursor:pointer">
+      Оплатить (демо)
+    </button>
+  </form>
+
+  <p style="margin-top:24px">
+    <a href="{% url 'checkout:failure' order.id %}">Отменить и вернуться</a>
+  </p>
+</div>
+{% endblock %}

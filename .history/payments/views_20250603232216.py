@@ -14,11 +14,6 @@ from django.views.decorators.http import require_http_methods
 from payments import tbank                         # ← импорт нашего обёрточного модуля
 from payments.models import TBankPayment
 from store.models import Order
-from decimal import Decimal
-from django.shortcuts import get_object_or_404, redirect, render
-
-from store.models import Order
-from .models import TBankPayment
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -126,30 +121,3 @@ def tbank_webhook(request: HttpRequest) -> HttpResponse:
         order.save(update_fields=["status", "updated"])
 
     return HttpResponse("OK", status=HTTPStatus.OK)
-
-def tbank_demo_pay(request, pid):
-    """
-    Заглушка платёжной формы в demo-режиме.
-    GET  – показывает сумму и кнопку «Оплатить».
-    POST – имитирует успех, меняет статусы и кидает клиента на /checkout/success/
-    """
-    pay = get_object_or_404(TBankPayment, payment_id=str(pid))
-    order: Order = pay.order
-
-    if request.method == "POST":
-        # помечаем платёж и заказ успешными
-        pay.status = "CONFIRMED"
-        pay.save(update_fields=["status", "updated"])
-
-        order.status = "paid"
-        order.save(update_fields=["status", "updated"])
-
-        return redirect("checkout:success", order_id=order.id)
-
-    # GET – рендерим форму
-    to_pay_rub = Decimal(pay.amount) / 100
-    return render(
-        request,
-        "payments/demo_pay.html",
-        {"order": order, "to_pay": to_pay_rub, "payment": pay},
-    )

@@ -1,7 +1,7 @@
 # payments/views.py
+from __future__ import annotations
 
 from decimal import Decimal
-import json
 from http import HTTPStatus
 
 from django.conf import settings
@@ -11,14 +11,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from payments import tbank                         # ← импорт нашего обёрточного модуля
+from payments import tbank                         # ← ВАЖНО: правильный импорт
 from payments.models import TBankPayment
 from store.models import Order
-from decimal import Decimal
-from django.shortcuts import get_object_or_404, redirect, render
-
-from store.models import Order
-from .models import TBankPayment
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -33,54 +28,47 @@ def tbank_start(request: HttpRequest, order_id: int) -> HttpResponse:
     if order.status == "paid":
         return redirect(reverse("checkout:success", args=[order.id]))
 
-    # рассчитаем итог к оплате (у вас в модели Order есть метод total(), а не total_price)
-    to_pay_decimal: Decimal = order.total()
+    # итоговая сумма (скидки / доставка / промокод — как у вас заведено)
+    to_pay = Decimal(order.total_price) + Decimal(order.shipping_price) - Decimal(order.discount)
 
-    # формируем чек (54-ФЗ)
+    # (54-ФЗ) чек — минимально-допустимый
     receipt = {
         "Email": order.email,
         "Taxation": "usn_income",
-        "Items": [
-            {
-                "Name": f"Заказ #{order.id}",
-                "Price": int(to_pay_decimal * 100),
-                "Quantity": 1,
-                "Amount": int(to_pay_decimal * 100),
-                "Tax": "vat20",
-            }
-        ],
+        "Items": [{
+            "Name": f"Order #{order.id}",
+            "Price": int(to_pay * 100),
+            "Quantity": 1,
+            "Amount": int(to_pay * 100),
+            "Tax": "none",
+        }],
     }
 
-    # строим URL для возврата после успешной оплаты и неуспешной
-    success_url = request.build_absolute_uri(
-        reverse("checkout:success", args=[order.id])
-    )
-    fail_url = request.build_absolute_uri(
-        reverse("checkout:failure", args=[order.id])
-    )
-
-    # отправляем init-запрос в T-Bank
     resp = tbank.init_payment(
         order_id=str(order.id),
-        amount_rub=float(to_pay_decimal),
+        amount_rub=float(to_pay),
         description=f"Заказ #{order.id}",
         receipt=receipt,
-        success_url=success_url,
-        fail_url=fail_url,
+        success_url=request.build_absolute_uri(
+            reverse("checkout:success", args=[order.id])
+        ),
+        fail_url=request.build_absolute_uri(
+            reverse("checkout:failure", args=[order.id])
+        ),
     )
 
-    # сохраняем или обновляем запись в таблице TBankPayment
+    # сохраняем / обновляем запись PaymentId
     pay_obj, _ = TBankPayment.objects.update_or_create(
         order=order,
         defaults={
-            "payment_id":   resp["PaymentId"],
-            "amount":       resp["Amount"],
-            "status":       resp["Status"],
+            "payment_id": resp["PaymentId"],
+            "amount":     resp["Amount"],
+            "status":     resp["Status"],
             "raw_response": resp,
         },
     )
 
-    # редиректим пользователя на PaymentURL (для demo-режима это будет /payments/demo/pay/<uuid>)
+    # для demo-режима вернётся фейковый URL «/payments/demo/pay/<uuid>»
     return redirect(resp["PaymentURL"])
 
 
@@ -88,13 +76,15 @@ def tbank_start(request: HttpRequest, order_id: int) -> HttpResponse:
 # 2) webhook от T-Bank
 #    URL: /payments/tbank/webhook/
 # ─────────────────────────────────────────────────────────────────────────────
-@csrf_exempt
+@csrf_exempt                            # T-Bank не присылает CSRF-cookie
 @require_http_methods(["POST"])
 def tbank_webhook(request: HttpRequest) -> HttpResponse:
-    # разбираем JSON-payload (T-Bank присылает application/json)
     try:
-        payload = json.loads(request.body)
-    except json.JSONDecodeError:
+        payload: dict = request.json if hasattr(request, "json") else request.body
+        if isinstance(payload, (bytes, bytearray)):
+            import json
+            payload = json.loads(payload)
+    except Exception:
         return HttpResponseBadRequest("invalid-json")
 
     # проверяем подпись
@@ -107,49 +97,21 @@ def tbank_webhook(request: HttpRequest) -> HttpResponse:
     if not payment_id or not status:
         return HttpResponseBadRequest("missing-fields")
 
-    # находим запись платежа по payment_id
     try:
         payment = TBankPayment.objects.select_related("order").get(payment_id=payment_id)
     except TBankPayment.DoesNotExist:
-        # чужой PaymentId — игнорируем
+        # не наш платёж — молча игнорируем
         return HttpResponse("ignored", status=HTTPStatus.OK)
 
-    # обновляем статус и raw_response
+    # обновляем запись платежа
     payment.status = status
     payment.raw_response = payload
     payment.save(update_fields=["status", "raw_response", "updated"])
 
-    # если платеж прошёл — помечаем заказ как оплаченный
-    if payment.is_successful():
+    # успешная оплата → помечаем заказ
+    if status in {"CONFIRMED", "AUTHORIZED"}:
         order = payment.order
         order.status = "paid"
         order.save(update_fields=["status", "updated"])
 
     return HttpResponse("OK", status=HTTPStatus.OK)
-
-def tbank_demo_pay(request, pid):
-    """
-    Заглушка платёжной формы в demo-режиме.
-    GET  – показывает сумму и кнопку «Оплатить».
-    POST – имитирует успех, меняет статусы и кидает клиента на /checkout/success/
-    """
-    pay = get_object_or_404(TBankPayment, payment_id=str(pid))
-    order: Order = pay.order
-
-    if request.method == "POST":
-        # помечаем платёж и заказ успешными
-        pay.status = "CONFIRMED"
-        pay.save(update_fields=["status", "updated"])
-
-        order.status = "paid"
-        order.save(update_fields=["status", "updated"])
-
-        return redirect("checkout:success", order_id=order.id)
-
-    # GET – рендерим форму
-    to_pay_rub = Decimal(pay.amount) / 100
-    return render(
-        request,
-        "payments/demo_pay.html",
-        {"order": order, "to_pay": to_pay_rub, "payment": pay},
-    )
