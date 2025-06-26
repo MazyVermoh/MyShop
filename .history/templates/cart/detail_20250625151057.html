@@ -1,0 +1,108 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block title %}Корзина – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/auth.css' %}">
+<style>
+/* таблица */
+.cart-table   { width:100%; border-collapse:collapse; margin-bottom:30px; }
+.cart-table th{ font-family:"IBM Plex Mono",monospace; font-size:13px; padding:6px 0; text-align:left; }
+.cart-table td{ padding:12px 0; font-family:"IBM Plex Sans",sans-serif; vertical-align:middle; border-top:1px solid #e4e4e4; }
+
+/* мини-фото */
+.cart-thumb   { width:140px; height:auto; }
+
+/* qty-controls */
+.qty-wrap     { display:flex; align-items:center; gap:6px; }
+.qty-btn      { width:28px; height:28px; border:1px solid #000; background:#fff;
+                cursor:pointer; font-size:18px; line-height:26px; text-align:center; }
+.qty-btn[disabled]{opacity:.3; cursor:default;}
+.qty-input    { width:40px; text-align:center; border:none; font-family:"IBM Plex Mono",monospace; }
+
+/* remove */
+.remove-btn   { border:none; background:none; font-size:22px; cursor:pointer; line-height:1; }
+
+/* summary / buttons */
+.cart-summary { text-align:right; font-family:"IBM Plex Sans"; font-size:18px; margin-bottom:25px; }
+.cart-actions { text-align:right; display:flex; gap:18px; justify-content:flex-end; }
+.primary-btn  { display:inline-block; padding:14px 34px; background:#000; color:#fff;
+                border:none; border-radius:6px; font-family:"IBM Plex Mono"; font-size:16px; text-decoration:none; }
+.secondary-lnk{ align-self:center; font-family:"IBM Plex Mono"; font-size:14px; text-decoration:underline; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="cart-wrapper">
+  <h2 class="auth-heading" style="margin-bottom:35px">Моя корзина</h2>
+
+  {% if cart|length == 0 %}
+    <p style="font-family:'IBM Plex Mono',monospace">
+      Корзина пуста. <a href="{% url 'home' %}">Продолжить покупки.</a>
+    </p>
+  {% else %}
+    <table id="cartTable" class="cart-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Товар</th>
+          <th>Размер</th>
+          <th>Кол-во</th>
+          <th>Цена</th>
+          <th>Итого</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart %}
+        <tr data-id="{{ item.product.id }}" data-size="{{ item.size }}">
+          <!-- изображение -->
+          <td>
+            {% if item.product.main_photo %}
+              <img src="{{ item.product.main_photo.image.url }}" alt="{{ item.product.name }}" class="cart-thumb">
+            {% else %}
+              <img src="{% static 'store/images/no_image.png' %}" alt="" class="cart-thumb">
+            {% endif %}
+          </td>
+
+          <!-- название -->
+          <td>
+            <a href="{% url 'product_detail' item.product.slug %}" style="color:#000; text-decoration:none">
+              {{ item.product.name }}
+            </a>
+          </td>
+
+          <!-- выбранный размер -->
+          <td>{{ item.size|default:"–" }}</td>
+
+          <!-- количество +/− -->
+          <td>
+            <div class="qty-wrap">
+              <button type="button" class="qty-btn" data-delta="-1" {% if item.qty <= 1 %}disabled{% endif %}>−</button>
+              <input class="qty-input" type="text" value="{{ item.qty }}" readonly>
+              <button type="button" class="qty-btn" data-delta="1">+</button>
+            </div>
+          </td>
+
+          <!-- цена и сумма -->
+          <td class="price-cell">{{ item.product.price }} ₽</td>
+          <td class="row-total">{{ item.total }} ₽</td>
+
+          <!-- удалить -->
+          <td><button type="button" class="remove-btn">×</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p class="cart-summary">Сумма: <strong id="cartSum">{{ cart.total_price }} ₽</strong></p>
+
+    <div class="cart-actions">
+      <a href="{% url 'checkout:checkout' %}" class="primary-btn">Оформить заказ</a>
+      <a href="{% url 'home' %}" class="secondary-lnk">Продолжить покупки</a>
+    </div>
+  {% endif %}
+</section>
+
+<script src="{% static 'store/scripts/cart.js' %}"></script>
+{% endblock %}

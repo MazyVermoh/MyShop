@@ -1,0 +1,116 @@
+{# templates/cart/detail.html #}
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Корзина – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/auth.css' %}">
+<style>
+  /* из HTML 2: общий макет */
+  .cart-page           { max-width:1100px; margin:0 auto; padding:20px 15px 80px; }
+  .cart-heading        { font:700 22px/1 "IBM Plex Mono",monospace; margin:0 0 35px; }
+
+  /* карточки вместо таблицы */
+  .cart-item           { display:flex; align-items:flex-start; gap:30px;
+                         padding:30px 0; border-bottom:1px solid #eee; }
+  .cart-item:first-of-type { border-top:1px solid #eee; }
+  .cart-thumb          { width:160px; height:160px; object-fit:contain; border:1px solid #ddd; }
+  .cart-info           { flex:1; font-family:"IBM Plex Sans",sans-serif; }
+  .cart-info h3        { margin:0 0 6px; font:600 17px/1.3 var(--font,inherit); }
+  .cart-info .size     { font:14px/1.3 "IBM Plex Mono",monospace; color:#666; }
+
+  /* из HTML 1: управление qty */
+  .qty-wrap            { display:flex; align-items:center; gap:6px; }
+  .qty-btn, .remove-btn {
+    width:26px; height:26px; border:1px solid #000; background:#fff;
+    cursor:pointer; font-size:16px; line-height:24px; text-align:center;
+  }
+  .qty-btn:disabled    { opacity:.35; cursor:not-allowed; }
+  .qty-input           { width:36px; text-align:center; border:none;
+                         font-family:"IBM Plex Mono",monospace; }
+
+  /* цены */
+  .cart-price, .cart-total { white-space:nowrap; font:15px/1.3 "IBM Plex Sans"; }
+  .remove-btn { border:none; background:none; font-size:20px; line-height:1; }
+
+  /* итог и кнопки */
+  .cart-summary        { display:flex; justify-content:space-between;
+                         align-items:center; flex-wrap:wrap; margin-top:40px; }
+  .cart-sum            { font:600 18px/1 "IBM Plex Sans"; }
+  .btn-primary, .btn-secondary {
+      display:inline-block; padding:14px 26px; border-radius:6px; font:15px "IBM Plex Mono";
+      text-align:center; text-decoration:none; transition:.25s ease;
+  }
+  .btn-primary         { background:#000; color:#fff; border:1px solid #000; }
+  .btn-primary:hover   { background:#333; }
+  .btn-secondary       { background:#fff; color:#000; border:1px solid #000; }
+  .btn-secondary:hover { background:#f8f8f8; }
+
+  @media (max-width:600px){
+    .cart-item         { flex-direction:column; align-items:flex-start; gap:16px; }
+    .cart-thumb        { width:120px; height:120px; }
+    .cart-summary      { flex-direction:column; gap:20px; align-items:stretch; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="cart-page">
+  <h2 class="cart-heading">Моя&nbsp;корзина</h2>
+
+  {% if cart|length == 0 %}
+    <p style="font-family:'IBM Plex Mono',monospace">
+      Корзина пуста. <a href="{% url 'home' %}">Вернуться в каталог →</a>
+    </p>
+  {% else %}
+    {% for item in cart %}
+    <article class="cart-item" data-id="{{ item.product.id }}">
+      {% if item.product.main_photo %}
+        <img class="cart-thumb" src="{{ item.product.main_photo.image.url }}"
+             alt="{{ item.product.name }}">
+      {% else %}
+        <img class="cart-thumb" src="{% static 'store/images/no_image.png' %}" alt="">
+      {% endif %}
+
+      <div class="cart-info">
+        <h3>
+          <a href="{% url 'product_detail' item.product.slug %}"
+             style="text-decoration:none;color:inherit;">
+            {{ item.product.name }}
+          </a>
+        </h3>
+        <div class="size">Размер:&nbsp;{{ item.size|default:"–" }}</div>
+      </div>
+
+      <div class="qty-wrap">
+        <button class="qty-btn" data-delta="-1" {% if item.qty|add:'-1' < 1 %}disabled{% endif %}>
+          −
+        </button>
+        <input class="qty-input" type="text" value="{{ item.qty }}" readonly>
+        <button class="qty-btn" data-delta="1">+</button>
+      </div>
+
+      <div class="cart-price">{{ item.product.price }}&nbsp;₽</div>
+      <div class="cart-total">{{ item.total }}&nbsp;₽</div>
+
+      <button class="remove-btn" title="Удалить">×</button>
+    </article>
+    {% endfor %}
+
+    <div class="cart-summary">
+      <div class="cart-sum">Сумма:&nbsp;<span id="cartSum">{{ cart.total_price }}&nbsp;₽</span></div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{% url 'checkout:checkout' %}" class="btn-primary" style="min-width:220px">
+          Оформить&nbsp;заказ
+        </a>
+        <a href="{% url 'home' %}" class="btn-secondary" style="min-width:220px">
+          Продолжить&nbsp;покупки
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+<script src="{% static 'store/scripts/cart.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,153 @@
+/* static/store/styles/accounts.css */
+
+/* --- Общий контейнер для страниц профиля --- */
+.accounts-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: "IBM Plex Sans", sans-serif;
+}
+
+.accounts-container h2 {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 22px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* --- Стили для страницы "Мой профиль" --- */
+
+/* Карточка с информацией о пользователе */
+.profile-card {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 6px;
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.profile-card__item {
+    display: flex;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.profile-card__label {
+    width: 90px;
+    flex-shrink: 0;
+    color: #666;
+}
+
+.profile-card__value {
+    font-weight: 500;
+}
+
+/* Блок со статистикой и последним заказом */
+.order-stats {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.order-stats a {
+    color: #000;
+    font-weight: 500;
+}
+
+/* Блок с кнопками действий */
+.profile-actions {
+    margin-top: 25px;
+    display: grid;
+    gap: 15px; /* Расстояние между кнопками */
+}
+
+/* Стили для кнопок, чтобы они выглядели как на сайте */
+.profile-button {
+    display: block; /* Растягиваем на всю ширину */
+    text-decoration: none; /* Убираем подчеркивание у ссылок */
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 15px;
+    border: 1px solid transparent;
+}
+
+/* Основная кнопка (серая) */
+.profile-button--primary {
+    background: #e4e4e4;
+    color: #000;
+    border-color: #e4e4e4;
+}
+
+/* Второстепенная кнопка (прозрачная с рамкой) */
+.profile-button--secondary {
+    background: transparent;
+    color: #555;
+    border-color: #ccc;
+}
+
+/* --- Стили для страницы "Мои заказы" --- */
+
+.order-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 15px;
+}
+
+/* Карточка одного заказа */
+.order-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #000;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.order-card:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.order-card__info {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.order-card__id {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+}
+
+.order-card__date {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Статус заказа */
+.order-card__status {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 20px; /* Делаем его овальным */
+    background-color: #e4e4e4;
+    white-space: nowrap; /* Чтобы текст не переносился */
+}
+
+/* Ссылка "Вернуться в профиль" */
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    color: #000;
+    font-size: 15px;
+}

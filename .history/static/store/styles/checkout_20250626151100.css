@@ -1,0 +1,177 @@
+/* static/store/styles/checkout.css */
+
+.checkout-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.checkout-heading {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.checkout-grid {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 2fr 1fr;
+}
+
+.checkout-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.field-group {
+  margin-bottom: 15px;
+}
+
+.field-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.field-group input,
+.field-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.field-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.radio-group {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.checkout-submit {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.checkout-summary {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.summary-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.summary-totals {
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.totals-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.totals-row.total {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.suggestions-wrapper {
+  z-index: 10000;
+}
+
+.contact-note {
+  margin-top: 20px;
+}
+
+/* === НАЧАЛО: ФИНАЛЬНЫЕ СТИЛИ ДЛЯ КОМПОНЕНТА ПРОМОКОДА === */
+
+.promo-component {
+  margin-top: 30px;
+}
+
+/* Контейнер для инпута и кнопки */
+.promo-component__inner {
+  display: flex;
+  align-items: center; /* Выравнивает по вертикали */
+  gap: 10px;
+}
+
+/* Поле ввода */
+.promo-component__input {
+  /* Размеры и растягивание */
+  flex-grow: 1; /* Растягивается на все свободное место */
+  height: 40px;
+  min-width: 0; /* Техническое свойство для корректной работы flex-grow */
+  
+  /* Внешний вид, как на дизайне */
+  box-sizing: border-box;
+  padding: 0 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px; /* Небольшое скругление, как на скриншотах */
+  background-color: #fff;
+  font-size: 14px;
+}
+
+/* Кнопка */
+.promo-component__button {
+  /* Размеры и запрет на сжатие */
+  flex-shrink: 0; 
+  height: 40px;
+  
+  /* Внешний вид, как на дизайне (полностью самодостаточный) */
+  box-sizing: border-box;
+  padding: 0 20px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit; /* Наследует шрифт сайта */
+  cursor: pointer;
+  
+  /* Для идеального центрирования текста внутри кнопки */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Сообщение об ошибке */
+.promo-component__error {
+  color: #b30000;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+/* === КОНЕЦ: ФИНАЛЬНЫЕ СТИЛИ ДЛЯ КОМПОНЕНТА ПРОМОКОДА === */

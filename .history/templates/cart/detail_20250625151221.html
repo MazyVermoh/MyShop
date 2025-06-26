@@ -1,0 +1,120 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Корзина – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/auth.css' %}">
+<style>
+/* … стили без изменений (сокращено) … */
+.cart-page{max-width:1100px;margin:0 auto;padding:20px 15px 80px;}
+/* остальной CSS из вашей версии */
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="cart-page">
+  <h2 class="cart-heading">Моя&nbsp;корзина</h2>
+
+  {% if cart|length == 0 %}
+    <p style="font-family:'IBM Plex Mono',monospace">
+      Корзина пуста. <a href="{% url 'home' %}">Вернуться в каталог →</a>
+    </p>
+  {% else %}
+
+    {# ———— СПИСОК ПОЗИЦИЙ ———— #}
+    {% for item in cart %}
+    <article class="cart-item"
+             data-id="{{ item.product.id }}">
+      {# изображение #}
+      {% if item.product.main_photo %}
+        <img class="cart-thumb" src="{{ item.product.main_photo.image.url }}"
+             alt="{{ item.product.name }}">
+      {% else %}
+        <img class="cart-thumb" src="{% static 'store/images/no_image.png' %}" alt="">
+      {% endif %}
+
+      {# информация #}
+      <div class="cart-info">
+        <h3>{{ item.product.name }}</h3>
+        <div class="size">Размер:&nbsp;{{ item.size|default:"–" }}</div>
+      </div>
+
+      {# количество #}
+      <div class="qty-wrap">
+        <form action="{% url 'cart:update' item.product.id %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="qty"  value="{{ item.qty|add:'-1' }}">
+          <input type="hidden" name="size" value="{{ item.size }}">
+          <button class="qty-btn" {% if item.qty|add:'-1' < 1 %}disabled{% endif %}>−</button>
+        </form>
+
+        <input class="qty-input" type="text" value="{{ item.qty }}" readonly>
+
+        <form action="{% url 'cart:update' item.product.id %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="qty"  value="{{ item.qty|add:'1' }}">
+          <input type="hidden" name="size" value="{{ item.size }}">
+          <button class="qty-btn">+</button>
+        </form>
+      </div>
+
+      {# цена / итог #}
+      <div class="cart-price">{{ item.product.price }}&nbsp;₽</div>
+      <div class="cart-total">{{ item.total }}&nbsp;₽</div>
+
+      {# удалить (теперь это просто кнопка) #}
+      <button type="button" class="remove-btn" title="Удалить">×</button>
+    </article>
+    {% endfor %}
+
+    {# ———— ИТОГИ ———— #}
+    <div class="cart-summary">
+      <div class="cart-sum">
+        Сумма:&nbsp;<span id="cartSum">{{ cart.total_price }}&nbsp;₽</span>
+      </div>
+
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{% url 'checkout:checkout' %}" class="btn-primary" style="min-width:220px">
+          Оформить&nbsp;заказ
+        </a>
+        <a href="{% url 'home' %}" class="btn-secondary" style="min-width:220px">
+          Продолжить&nbsp;покупки
+        </a>
+      </div>
+    </div>
+
+  {% endif %}
+</section>
+
+{# ─────────────────────── JS: удаление без перезагрузки ───────────────────── #}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const csrf = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+  document.querySelectorAll(".remove-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const item = btn.closest(".cart-item");
+      const pid  = item.dataset.id;
+
+      fetch(`/cart/remove/${pid}/`, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrf,
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
+      .then(r => r.json())
+      .then(data => {
+        item.remove();                                   // убираем элемент
+        document.getElementById("cartSum").innerHTML =
+          `${data.total_price}&nbsp;₽`;                 // обновляем сумму
+        if (!document.querySelector(".cart-item")) {     // если корзина теперь пуста
+          location.reload();                             // перезагружаем, чтобы показать «пуста»
+        }
+      });
+    });
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Корзина – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/auth.css' %}">
+<style>
+  /* Увеличенная миниатюра */
+  .cart-thumb {
+    width: 80px;
+    height: auto;
+    object-fit: cover;
+    border: 1px solid #e4e4e4;
+    border-radius: 4px;
+  }
+  .qty-wrap { display: flex; align-items: center; gap: 6px; }
+  .qty-btn {
+    width: 26px; height: 26px;
+    border: 1px solid #000; background: #fff;
+    cursor: pointer; font-size: 16px; line-height: 24px;
+    text-align: center;
+  }
+  .qty-input {
+    width: 36px; text-align: center; border: none;
+    font-family: "IBM Plex Mono", monospace;
+  }
+  .remove-btn {
+    border: none; background: none;
+    font-size: 18px; cursor: pointer;
+  }
+  /* Прячем заголовок-изображение */
+  table thead th:first-child { display: none; }
+  table tbody td:first-child { padding: 0; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="cart-wrapper">
+  <h2 class="auth-heading" style="margin-bottom:35px">Моя корзина</h2>
+
+  {% if cart|length == 0 %}
+    <p style="font-family:'IBM Plex Mono',monospace">
+      Корзина пуста. <a href="{% url 'home' %}">Продолжить покупки.</a>
+    </p>
+  {% else %}
+    <table style="width:100%;border-collapse:collapse;margin-bottom:30px">
+      <thead>
+        <tr style="text-align:left;font-family:'IBM Plex Mono',monospace;font-size:13px">
+          <th style="padding:6px 0"></th>  {# убрали «Изобр.» #}
+          <th style="padding:6px 0">Товар</th>
+          <th style="padding:6px 0">Размер</th>
+          <th style="padding:6px 0">Кол-во</th>
+          <th style="padding:6px 0">Цена</th>
+          <th style="padding:6px 0">Итого</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart %}
+        <tr data-id="{{ item.product.id }}" data-size="{{ item.size }}"
+            style="border-top:1px solid #e4e4e4;font-family:'IBM Plex Sans',sans-serif">
+
+          {# скрытая ячейка для выравнивания #}
+          <td style="padding:12px 0"></td>
+
+          {# картинка + название #}
+          <td style="padding:12px 0; vertical-align: middle;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              {% if item.product.main_photo %}
+                <img src="{{ item.product.main_photo.image.url }}"
+                     alt="{{ item.product.name }}"
+                     class="cart-thumb">
+              {% else %}
+                <img src="{% static 'store/images/no_image.png' %}"
+                     alt="{{ item.product.name }}"
+                     class="cart-thumb">
+              {% endif %}
+              <a href="{% url 'product_detail' item.product.slug %}"
+                 style="text-decoration:none;color:#000;
+                        font-family:'IBM Plex Mono',monospace;">
+                {{ item.product.name }}
+              </a>
+            </div>
+          </td>
+
+          {# выбранный размер #}
+          <td style="padding:12px 0; vertical-align: middle;">
+            {{ item.size|default:"–" }}
+          </td>
+
+          {# количество с кнопками #}
+          <td style="padding:12px 0; vertical-align: middle;">
+            <div class="qty-wrap">
+              <form action="{% url 'cart:update' item.product.id %}" method="post" style="display:inline">
+                {% csrf_token %}
+                <input type="hidden" name="qty" value="{{ item.qty|add:'-1' }}">
+                <input type="hidden" name="size" value="{{ item.size }}">
+                <button type="submit" class="qty-btn" {% if item.qty<=1 %}disabled{% endif %}>−</button>
+              </form>
+              <input class="qty-input" type="text" value="{{ item.qty }}" readonly>
+              <form action="{% url 'cart:update' item.product.id %}" method="post" style="display:inline">
+                {% csrf_token %}
+                <input type="hidden" name="qty" value="{{ item.qty|add:'1' }}">
+                <input type="hidden" name="size" value="{{ item.size }}">
+                <button type="submit" class="qty-btn">+</button>
+              </form>
+            </div>
+          </td>
+
+          {# цена и сумма #}
+          <td class="price-cell" style="padding:12px 0; vertical-align: middle;">
+            {{ item.product.price }} ₽
+          </td>
+          <td class="row-total" style="padding:12px 0; vertical-align: middle;">
+            {{ item.total }} ₽
+          </td>
+
+          {# удаление #}
+          <td style="padding:12px 0; vertical-align: middle;">
+            <form action="{% url 'cart:remove' item.product.id %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="size" value="{{ item.size }}">
+              <button type="submit" class="remove-btn">×</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p style="text-align:right;font-family:'IBM Plex Sans';font-size:18px;margin-bottom:25px">
+      Сумма: <strong id="cartSum">{{ total_price }} ₽</strong>
+    </p>
+
+    <div style="text-align:right">
+      <a href="{% url 'checkout:checkout' %}" class="auth-submit"
+         style="display:inline-block;width:auto;padding:12px 30px;margin-right:20px;">
+        Перейти к оформлению
+      </a>
+      <a href="{% url 'home' %}" style="text-decoration:underline">
+        Продолжить покупки
+      </a>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,209 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Корзина – ABUZADA STORE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store/styles/auth.css' %}">
+<style>
+  .cart-item {
+    display: grid;
+    grid-template-columns: 160px 1fr auto auto auto auto;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid #e4e4e4;
+  }
+  .cart-item:last-child {
+    border-bottom: none;
+  }
+
+  .cart-item-image img {
+    width: 160px;
+    height: auto;
+    object-fit: cover;
+    border: 1px solid #e4e4e4;
+    border-radius: 4px;
+  }
+
+  .cart-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .cart-item-name {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #222;
+    text-decoration: none;
+  }
+  .cart-item-size {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cart-item-qty button {
+    width: 28px;
+    height: 28px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .cart-item-qty button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  .cart-item-qty input {
+    width: 36px;
+    text-align: center;
+    border: none;
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  .cart-item-price,
+  .cart-item-total {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 15px;
+    text-align: right;
+    color: #222;
+  }
+
+  .cart-item-remove {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+  }
+  .cart-item-remove:hover {
+    color: #333;
+  }
+
+  #cart-summary {
+    text-align: right;
+    margin-top: 24px;
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .cart-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .cart-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 32px;
+    border-radius: 6px;
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 15px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .cart-actions .auth-submit {
+    background-color: #222;
+    color: #fff;
+  }
+  .cart-actions .auth-submit:hover {
+    background-color: #444;
+  }
+  .cart-actions .continue {
+    border: 1px solid #222;
+    color: #222;
+  }
+  .cart-actions .continue:hover {
+    background-color: #f5f5f5;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="cart-wrapper">
+  <h2 class="auth-heading" style="margin-bottom:24px">Моя корзина</h2>
+
+  {% if cart|length == 0 %}
+    <p style="font-family:'IBM Plex Mono',monospace">
+      Корзина пуста. <a href="{% url 'home' %}">Продолжить покупки</a>.
+    </p>
+  {% else %}
+
+    {% for item in cart %}
+      <div class="cart-item" data-id="{{ item.product.id }}" data-size="{{ item.size }}">
+        <div class="cart-item-image">
+          {% if item.product.main_photo %}
+            <img src="{{ item.product.main_photo.image.url }}"
+                 alt="{{ item.product.name }}">
+          {% else %}
+            <img src="{% static 'store/images/no_image.png' %}"
+                 alt="нет изображения">
+          {% endif %}
+        </div>
+
+        <div class="cart-item-info">
+          <a href="{% url 'product_detail' item.product.slug %}"
+             class="cart-item-name">
+            {{ item.product.name }}
+          </a>
+          <div class="cart-item-size">
+            Размер: {{ item.size|default:"–" }}
+          </div>
+        </div>
+
+        <div class="cart-item-qty">
+          <form action="{% url 'cart:update' item.product.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="qty" value="{{ item.qty|add:'-1' }}">
+            <input type="hidden" name="size" value="{{ item.size }}">
+            <button type="submit" {% if item.qty <= 1 %}disabled{% endif %}>−</button>
+          </form>
+          <input type="text" value="{{ item.qty }}" readonly>
+          <form action="{% url 'cart:update' item.product.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="qty" value="{{ item.qty|add:'1' }}">
+            <input type="hidden" name="size" value="{{ item.size }}">
+            <button type="submit">+</button>
+          </form>
+        </div>
+
+        <div class="cart-item-price">
+          {{ item.product.price }} ₽
+        </div>
+
+        <div class="cart-item-total">
+          {{ item.total }} ₽
+        </div>
+
+        <button class="cart-item-remove"
+                onclick="location.href='{% url 'cart:remove' item.product.id %}';">
+          ×
+        </button>
+      </div>
+    {% endfor %}
+
+    <div id="cart-summary">
+      Сумма: {{ cart.total_price }} ₽
+    </div>
+
+    <div class="cart-actions">
+      <a href="{% url 'checkout:checkout' %}" class="auth-submit">Оформить заказ</a>
+      <a href="{% url 'home' %}" class="continue">Продолжить покупки</a>
+    </div>
+
+  {% endif %}
+</section>
+<script src="{% static 'store/scripts/cart.js' %}"></script>
+{% endblock %}

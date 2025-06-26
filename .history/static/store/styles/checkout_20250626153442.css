@@ -1,0 +1,177 @@
+/* static/store/styles/checkout.css */
+
+.checkout-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.checkout-heading {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.checkout-grid {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 2fr 1fr;
+}
+
+.checkout-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.field-group {
+  margin-bottom: 15px;
+}
+
+.field-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.field-group input,
+.field-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.field-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  border-radius: 4px
+}
+
+.radio-group {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.checkout-submit {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 4px
+}
+
+.checkout-summary {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.summary-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.summary-totals {
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.totals-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.totals-row.total {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.suggestions-wrapper {
+  z-index: 10000;
+}
+
+.contact-note {
+  margin-top: 20px;
+}
+
+/* === НАЧАЛО: СТИЛИ ДЛЯ ПРОМОКОДА === */
+
+.promo-block {
+    margin-top: 30px;
+}
+
+/* 1. Flex-контейнер для выравнивания */
+.promo-layout {
+    display: flex;
+    align-items: center; /* Выравнивание по ЦЕНТРУ по вертикали */
+    gap: 12px;           /* Немного увеличили отступ */
+}
+
+/* 2. Обертка для поля ввода, которая будет растягиваться */
+.promo-input-container {
+    flex-grow: 1; /* Занимает все доступное место */
+}
+
+/* 3. Стиль для самого поля ввода, которое генерирует Django */
+.promo-input-container input {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+/* 4. Класс для кнопки, который задает ей РАЗМЕР и МЕСТО В СТРОКЕ */
+/* 4. Финальный, самый сильный стиль для кнопки промокода */
+/* 4. ФИНАЛЬНЫЙ, ЖЕЛЕЗОБЕТОННЫЙ СТИЛЬ ДЛЯ КНОПКИ ПРОМОКОДА */
+.promo-layout .checkout-submit.promo-button {
+    /* --- Эти стили задают РАЗМЕР и ВНЕШНИЙ ВИД --- */
+    flex-shrink: 0;
+    width: auto;
+    height: 40px;
+    padding: 0 20px;
+    font-size: 14px;
+    box-sizing: border-box !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    border-radius: 4px; /* <-- ДОБАВЬТЕ ЭТУ СТРОКУ ДЛЯ СКРУГЛЕНИЯ */
+
+    /* === ПОЗИЦИОНИРОВАНИЕ === */
+    position: relative;
+    top: 0px; 
+}
+/* 5. Сообщение об ошибке */
+.promo-error {
+    color: #b30000;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* === КОНЕЦ: СТИЛИ ДЛЯ ПРОМОКОДА === */

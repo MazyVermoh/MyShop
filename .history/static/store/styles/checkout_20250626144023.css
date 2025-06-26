@@ -1,0 +1,154 @@
+/* static/store/styles/checkout.css */
+
+.checkout-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.checkout-heading {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.checkout-grid {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 2fr 1fr;
+}
+
+.checkout-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.field-group {
+  margin-bottom: 15px;
+}
+
+.field-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.field-group input,
+.field-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.field-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end; /* выравниваем поля и кнопки по базовой линии */
+}
+
+.radio-group {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.checkout-submit {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.checkout-summary {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.summary-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.summary-totals {
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.totals-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.totals-row.total {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Чтобы список подсказок DaData не прятался за другими элементами */
+.suggestions-wrapper {
+  z-index: 10000;
+}
+
+
+/* === Стили для формы промокода === */
+
+.promo-form {
+  margin-top: 0;
+}
+
+.promo-row {
+  display: flex;       /* Включаем Flexbox для выравнивания */
+  align-items: stretch; /* Растягиваем элементы на всю высоту родителя */
+  gap: 10px;           /* Пространство между полем и кнопкой */
+}
+
+.promo-row input[type="text"] {
+  flex-grow: 1;         /* Поле ввода занимает всё доступное пространство */
+  padding: 0 12px;      /* Внутренние отступы */
+  border: 1px solid #ccc;
+  font-size: 14px;
+  height: 44px;         /* Задаем фиксированную высоту */
+  box-sizing: border-box; /* Чтобы padding не влиял на общую ширину/высоту */
+}
+
+.promo-button {
+  padding: 0 20px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  height: 44px;          /* Та же высота, что и у поля ввода */
+  box-sizing: border-box;
+  flex-shrink: 0;        /* Запрещаем кнопке сжиматься */
+}
+
+/* Стили для сообщения об ошибке */
+.promo-form .errorlist {
+    color: #b30000;
+    font-size: 13px;
+    margin-top: 5px;
+}
