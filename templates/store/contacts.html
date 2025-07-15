@@ -1,0 +1,34 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Наши контакты — ABUZADA{% endblock %}
+
+{% block content %}
+<section class="container contacts-page">
+  <h1 class="page-title">Наши контакты</h1>
+
+  <div class="contacts-grid">
+
+    <a class="contact-card" href="https://www.instagram.com/abuzada_store" target="_blank" rel="noopener">
+      <img src="{% static 'store/icons/instagram.svg' %}" alt="" width="28" height="28">
+      <span>@abuzada_store</span>
+    </a>
+
+    <a class="contact-card" href="https://t.me/abuzadamanager" target="_blank" rel="noopener">
+      <img src="{% static 'store/icons/telegram.svg' %}" alt="" width="28" height="28">
+      <span>@abuzadamanager</span>
+    </a>
+
+    <a class="contact-card" href="https://wa.me/79779803691" target="_blank" rel="noopener">
+      <img src="{% static 'store/icons/whatsapp.svg' %}" alt="" width="28" height="28">
+      <span>+7 977 980-36-91</span>
+    </a>
+
+    <a class="contact-card" href="https://vk.com/abuzada.store" target="_blank" rel="noopener">
+      <img src="{% static 'store/icons/vk.svg' %}" alt="" width="28" height="28">
+      <span>vk.com/abuzada.store</span>
+    </a>
+
+  </div>
+</section>
+{% endblock %}

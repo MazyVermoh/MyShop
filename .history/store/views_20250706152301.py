@@ -1,39 +1,33 @@
 # store/views.py
-from __future__ import annotations
-
 from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models import Prefetch
-from django.http import Http404, JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
 
 from .forms import SubscribeForm
 from .models import Color, Product, ProductImage, Subscriber
 
-
 # ---------------------------------------------------------------------
 # Главная страница
 # ---------------------------------------------------------------------
 def index(request):
     """
-    Формируем витрину: для каждого продукта группируем картинки по цветам,
-    выбираем «Белый» (если есть) или первый цвет с фотографией.
-    В результате у каждого Product появятся:
-        p.filtered_images  — список картинок выбранного цвета
-        p.swatches         — данные для цветных свотчей
+    Для каждого продукта:
+      – группируем изображения по цветам,
+      – выбираем default_color (“Белый” или первый с фото),
+      – готовим p.filtered_images и p.swatches.
     """
     promo_order = [
         "lionel-messi", "cristiano-ronaldo", "neymar",
         "kylian-mbappe", "jude-bellingham", "ronaldinho",
-        "karim-benzema", "zlatan-ibrahimovic", "lamine-yamal", 
-        "sergio-ramos", "zenidine-zidane", "ronaldo-nazario",
+        "karim-benzema", "zlatan-ibrahimovic",
     ]
 
     qs = Product.objects.prefetch_related(
         Prefetch("images", queryset=ProductImage.objects.select_related("color")),
-        "colors",
-        "sizes",
+        "colors", "sizes",
     )
     products = sorted(
         qs.filter(slug__in=promo_order),
@@ -41,7 +35,6 @@ def index(request):
     )
 
     for p in products:
-        # группируем картинки по цвету
         by_color: dict[int, list[ProductImage]] = {}
         for img in sorted(p.images.all(), key=lambda i: (-i.is_main, i.id)):
             by_color.setdefault(img.color_id, []).append(img)
@@ -111,44 +104,41 @@ def kids_goat(request):
 
 
 def kids_elite(request):
-    return render(request, "store/kids_elite.html", {"products": Product.objects.none()})
+    return render(
+        request, "store/kids_elite.html", {"products": Product.objects.none()}
+    )
 
 
 def kids_legends(request):
-    return render(request, "store/kids_legends.html", {"products": Product.objects.none()})
+    return render(
+        request, "store/kids_legends.html", {"products": Product.objects.none()}
+    )
 
 
 def promotions(request):
-    return render(request, "store/promotions.html", {"products": Product.objects.none()})
+    return render(
+        request,
+        "store/promotions.html",
+        {"products": Product.objects.none()},
+    )
 
 
 def giftcards(request):
     return render(request, "store/giftcards.html", {"products": Product.objects.none()})
 
 
-# ---------------------------------------------------------------------
-# Статические страницы
-# ---------------------------------------------------------------------
 def contacts(request):
     return render(request, "store/contacts.html")
 
 
 def about(request):
-    """Страница «О бренде» (шаблон templates/store/about.html)."""
+    """Статическая страница «О бренде»."""
     return render(request, "store/about.html")
 
 
 def social(request):
     return render(request, "store/social.html")
 
-def delivery(request):
-    return render(request, "store/delivery.html")
-
-def returns(request):
-    return render(request, "store/returns.html")
-
-def terms(request):
-    return render(request, "store/terms.html")
 
 # ---------------------------------------------------------------------
 # Детальная страница товара
@@ -198,7 +188,7 @@ def product_detail(request, slug):
             }
         )
 
-    # выбранный размер из GET
+    # размер из GET
     sel_size = request.GET.get("size")
 
     recommended = Product.objects.exclude(id=product.id).order_by("?")[:3]
@@ -236,7 +226,7 @@ def product_first_image(request, prod_id, color_id):
 @require_POST
 def subscribe(request):
     """
-    Принимает email, сохраняет в БД, шлёт welcome-письмо, возвращает JSON.
+    Принимает email, сохраняет в БД, шлёт welcome-письмо, отдаёт JSON.
     """
     form = SubscribeForm(request.POST)
     if not form.is_valid():
@@ -244,8 +234,7 @@ def subscribe(request):
 
     email = form.cleaned_data["email"]
     sub, created = Subscriber.objects.get_or_create(
-        email=email,
-        defaults={"confirmed": True},  # уберите confirmed для double-opt-in
+        email=email, defaults={"confirmed": True}  # уберите confirmed для double-opt-in
     )
 
     # welcome-письмо только новым подписчикам

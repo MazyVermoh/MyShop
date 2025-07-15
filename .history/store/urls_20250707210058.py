@@ -19,9 +19,7 @@ urlpatterns = [
     path("about/",                  views.about,       name="about"),
     path("social/",                 views.social,      name="social"),
     path("api/subscribe/",          views.subscribe, name="subscribe"),
-    path("delivery/",  views.delivery,  name="delivery"),   
-    path("returns/", views.returns, name="returns"), 
-    path("terms/", views.terms, name="terms"),
+    path("delivery/",  views.delivery,  name="delivery"),    
 
     # AJAX‑маршрут для свотча
     path("ajax/product-first-image/<int:prod_id>/<int:color_id>/",

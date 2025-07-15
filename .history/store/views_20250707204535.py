@@ -141,14 +141,6 @@ def about(request):
 def social(request):
     return render(request, "store/social.html")
 
-def delivery(request):
-    return render(request, "store/delivery.html")
-
-def returns(request):
-    return render(request, "store/returns.html")
-
-def terms(request):
-    return render(request, "store/terms.html")
 
 # ---------------------------------------------------------------------
 # Детальная страница товара

@@ -146,7 +146,7 @@
     text-align: left;
   }
 
-.product-text {
+  .product-text {
   white-space: pre-line; /* \n → перевод строки; пустая строка → абзац */
   line-height: 1.45;
   font-family: "IBM Plex Sans", sans-serif;

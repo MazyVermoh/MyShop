@@ -171,16 +171,3 @@ body {
 .contact-card:hover {
   background: #f6f6f6;
 }
-
-/*  ───── страница policy-page (доставка, возвраты …) ─────  */
-.policy-page{
-  max-width:800px;margin:40px auto;padding:0 15px;font-family:"IBM Plex Sans",sans-serif;
-}
-.policy-page h1{font-size:24px;margin-bottom:28px;font-family:"IBM Plex Mono",monospace;}
-.policy-page h2{font-size:18px;margin:28px 0 12px;}
-.shipping-table{width:100%;border-collapse:collapse;margin:12px 0 8px;}
-.shipping-table th,.shipping-table td{border:1px solid #e6e6e6;padding:8px 10px;font-size:14px;text-align:left;}
-.shipping-table th{background:#fafafa;}
-.policy-page .small{font-size:12px;color:#777;margin-top:4px;}
-.contact-list{margin:8px 0 0;padding:0 0 0 14px;}
-.contact-list li{margin:4px 0;}

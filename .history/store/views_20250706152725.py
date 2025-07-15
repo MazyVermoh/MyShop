@@ -26,8 +26,7 @@ def index(request):
     promo_order = [
         "lionel-messi", "cristiano-ronaldo", "neymar",
         "kylian-mbappe", "jude-bellingham", "ronaldinho",
-        "karim-benzema", "zlatan-ibrahimovic", "lamine-yamal", 
-        "sergio-ramos", "zenidine-zidane", "ronaldo-nazario",
+        "karim-benzema", "zlatan-ibrahimovic",
     ]
 
     qs = Product.objects.prefetch_related(
@@ -134,21 +133,13 @@ def contacts(request):
 
 
 def about(request):
-    """Страница «О бренде» (шаблон templates/store/about.html)."""
-    return render(request, "store/about.html")
+    """Страница «О бренде» (шаблон лежит в templates/about/about.html)."""
+    return render(request, "about/about.html")
 
 
 def social(request):
     return render(request, "store/social.html")
 
-def delivery(request):
-    return render(request, "store/delivery.html")
-
-def returns(request):
-    return render(request, "store/returns.html")
-
-def terms(request):
-    return render(request, "store/terms.html")
 
 # ---------------------------------------------------------------------
 # Детальная страница товара

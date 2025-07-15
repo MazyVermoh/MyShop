@@ -1,0 +1,72 @@
+{# templates/store/delivery.html #}
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Доставка — ABUZADA{% endblock %}
+
+{% block content %}
+<section class="container policy-page">
+
+  <h1 class="page-title">Политика доставки</h1>
+
+  <!-- 1. Срок сборки -->
+  <h2>Срок сборки заказа</h2>
+  <p>
+    Мы собираем и передаём заказ в службу доставки
+    <strong>в течение 1–2 рабочих дней</strong> после подтверждения оплаты.
+    В день передачи вы получите e-mail и SMS с трек-номером.
+  </p>
+
+  <!-- 2. Способы и стоимость -->
+  <h2>Способы и стоимость</h2>
+  <table class="shipping-table">
+    <thead>
+      <tr>
+        <th>Служба</th>
+        <th>Куда</th>
+        <th>Срок*</th>
+        <th>Стоимость</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>СДЭК (ПВЗ)</td>
+        <td>По всей России</td>
+        <td>2–7 рабочих дней</td>
+        <td><strong>Бесплатно</strong></td>
+      </tr>
+      <tr>
+        <td>Яндекс Доставка</td>
+        <td>До двери, РФ</td>
+        <td>1–5 рабочих дней</td>
+        <td><strong>Бесплатно</strong></td>
+      </tr>
+      <tr>
+        <td>Курьер ABUZADA</td>
+        <td>Москва (МКАД)</td>
+        <td>В день заказа или на следующий</td>
+        <td>600 ₽</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="small">*Сроки указаны на сайте служб доставки и могут меняться в пиковые периоды.</p>
+
+  <!-- 3. Отслеживание -->
+  <h2>Отслеживание</h2>
+  <p>
+    После передачи заказа перевозчику вы получите ссылку для отслеживания
+    в письме и СМС. Если ничего не пришло — проверьте папку «Спам» или
+    напишите нам на <a href="mailto:order@abuzada.ru">abuzada.store@mail.ru</a>.
+  </p>
+
+  <!-- 4. Вопросы -->
+  <h2>Вопросы?</h2>
+  <p>Мы на связи ежедневно с 10:00 до 22:00 (МСК):</p>
+  <ul class="contact-list">
+    <li><a href="https://t.me/abuzadamanager" target="_blank">Telegram: @abuzadamanager</a></li>
+    <li><a href="https://wa.me/79779803691"    target="_blank">WhatsApp: +7 977 980-36-91</a></li>
+    <li><a href="mailto:order@abuzada.ru">Email: order@abuzada.ru</a></li>
+  </ul>
+
+</section>
+{% endblock %}

@@ -147,9 +147,6 @@ def delivery(request):
 def returns(request):
     return render(request, "store/returns.html")
 
-def terms(request):
-    return render(request, "store/terms.html")
-
 # ---------------------------------------------------------------------
 # Детальная страница товара
 # ---------------------------------------------------------------------
